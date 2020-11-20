@@ -29,41 +29,46 @@ addBookToLibrary("The Hobbit", "Tolkien", 255, true);
 addBookToLibrary("Musashi", "Eiji Yoshikawa", 1000, true);
 addBookToLibrary("Lord of the Flies", "William Golding", 200, false);
 
+// function to look up table headers' class names
+// and return an array with matching entries for that book
+function getBookEntries(book){
+    // stores each th element's classname to bookHeaders array
+    const bookHeaders = Array.from(document.querySelectorAll("th")).map(header => header.className);
+    const bookEntries = bookHeaders.map(header => book[header]);
+
+    return {bookHeaders, bookEntries}
+}
+
+function addTdBookElt(rowElt, header, entry){
+    const newEntry = document.createElement("td");
+
+    if (header === "read"){
+        if (entry === true) entry = "Yes";
+        else entry = "No";
+    }
+
+    newEntry.innerText = entry;
+    newEntry.classList.add(header);
+    rowElt.appendChild(newEntry);
+}
+
+function makeTrBookElt(bookList){
+    const newRowElt = document.createElement("tr");
+
+    for (let bookIndex = 0; bookIndex < bookList.bookHeaders.length; bookIndex++){
+        addTdBookElt(newRowElt, bookList.bookHeaders[bookIndex], bookList.bookEntries[bookIndex])
+    }
+
+    document.querySelector("#book-list").appendChild(newRowElt);
+}
+
 function displayBookInTable(book){
-    // get details of index-th book
-    const title = book.title;
-    const author = book.author;
-    const pages = book.pages;
-    const read = book.read;
-
-    // convert read into "Yes" or "No"
-    let readForTable = "";
-    if (read === true) readForTable += "Yes";
-    else readForTable += "No";
-
-    // add these to a td element each
-    const titleEntry = document.createElement("td");
-    titleEntry.innerText = title;
-    const authorEntry = document.createElement("td");
-    authorEntry.innerText = author;
-    const pagesEntry = document.createElement("td");
-    pagesEntry.innerText = pages;
-    const readEntry = document.createElement("td");
-    readEntry.innerText = readForTable;
-
-    // make tr element and append tds to it
-    const newRow = document.createElement("tr");
-    newRow.appendChild(titleEntry);
-    newRow.appendChild(authorEntry);
-    newRow.appendChild(pagesEntry);
-    newRow.appendChild(readEntry);
-
-    // add new row to table
-    document.querySelector("#book-list").appendChild(newRow);
+    const bookList = getBookEntries(book);
+    makeTrBookElt(bookList);
 }
 
 function displayAllBooksInTable(){
     myLibrary.forEach(displayBookInTable);
 }
 
-displayAllBooksInTable();
+displayAllBooksInTable(myLibrary);
