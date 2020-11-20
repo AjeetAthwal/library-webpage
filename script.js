@@ -85,6 +85,10 @@ function createAddNewBookBtn(){
     document.querySelector(".new-book").appendChild(newBookBtn);
 }
 
+function removeAddNewBookBtn(){
+    document.querySelector("#new-book-btn").remove();
+}
+
 function createBookForm(){
     // remove add new book button
 
