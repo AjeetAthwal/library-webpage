@@ -90,9 +90,10 @@ function removeAddNewBookBtn(){
 }
 
 function createBookForm(){
-    // remove add new book button
+    removeAddNewBookBtn();
 
-    // put form in new-book div container
+    const newBookForm = document.createElement("form");
+    document.querySelector(".new-book").appendChild(newBookForm);
 }
 
 createAddNewBookBtn();

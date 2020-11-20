@@ -7,7 +7,22 @@
 </head>
 <body>
     <h1>Library</h1>
-    <div class="new-book"></div>
+    <div class="new-book">
+        <form action="">
+            <label for="title">Title:</label><br>
+            <input type="text" id="title" name="title"><br>
+            <label for="author">Author:</label><br>
+            <input type="text" id="author" name="author"><br>
+            <label for="pages">Number of Pages:</label><br>
+            <input type="number" id="pages" name="pages"><br>
+            <label for="read">Read:</label><br>
+            <label for="yes">Yes</label>
+            <input type="radio" id="yes" name="read">
+            <label for="yes">No</label>
+            <input type="radio" id="no" name="read"><br>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
     <div class=library-container>
         <table id="book-list">
             <tr id="row-headers">
