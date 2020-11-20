@@ -59,8 +59,19 @@ function displayBookInTable(book){
     makeTrBookElt(bookDetails);
 }
 
+function displayEmptyMessage(){
+    const newRowElt = document.createElement("tr");
+    const newEntry = document.createElement("td");
+    newEntry.innerText = "There are no books in the library!";
+    newEntry.colSpan = Array.from(document.querySelectorAll("th")).map(header => header.className).length;
+    // add a remove button for each row
+    newRowElt.appendChild(newEntry);
+    document.querySelector("#book-list").appendChild(newRowElt);
+}
+
 function displayAllBooksInTable(){
-    myLibrary.forEach(displayBookInTable);
+    if (myLibrary.length === 0) displayEmptyMessage();
+    else myLibrary.forEach(displayBookInTable);
 }
 
 displayAllBooksInTable(myLibrary);
