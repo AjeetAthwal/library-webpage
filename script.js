@@ -28,7 +28,7 @@ function getBookDetails(book){
 
 function addTdBookElt(rowElt, header, entry){
     const newEntry = document.createElement("td");
-
+    
     // for read, convert bool to Yes/No
     if (header === "read"){
         if (entry === true) entry = "Yes";
@@ -42,8 +42,9 @@ function addTdBookElt(rowElt, header, entry){
     rowElt.appendChild(newEntry);
 }
 
-function makeTrBookElt(bookDetails){
+function makeTrBookElt(bookDetails, bookIndex){
     const newRowElt = document.createElement("tr");
+    newRowElt.dataset.bookIndex = bookIndex;
 
     for (let bookIndex = 0; bookIndex < bookDetails.bookHeaders.length; bookIndex++){
         addTdBookElt(newRowElt, bookDetails.bookHeaders[bookIndex], bookDetails.bookEntries[bookIndex])
@@ -54,9 +55,9 @@ function makeTrBookElt(bookDetails){
     document.querySelector("#book-list").appendChild(newRowElt);
 }
 
-function displayBookInTable(book){
+function displayBookInTable(book, bookIndex){
     const bookDetails = getBookDetails(book);
-    makeTrBookElt(bookDetails);
+    makeTrBookElt(bookDetails, bookIndex);
 }
 
 function displayEmptyMessage(){
