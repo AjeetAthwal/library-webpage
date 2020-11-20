@@ -78,4 +78,18 @@ function clearDisplayTable(){
     document.querySelector("#book-list").querySelectorAll("tr").forEach(rowElt => rowElt.id !== "row-headers" && rowElt.remove());
 }
 
+function createAddNewBookBtn(){
+    const newBookBtn = document.createElement("button");
+    newBookBtn.id = "new-book-btn";
+    newBookBtn.innerText = "Add New Book";
+    document.querySelector(".new-book").appendChild(newBookBtn);
+}
+
+function createBookForm(){
+    // remove add new book button
+
+    // put form in new-book div container
+}
+
+createAddNewBookBtn();
 displayAllBooksInTable(myLibrary);
