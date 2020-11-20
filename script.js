@@ -29,7 +29,7 @@ addBookToLibrary("The Hobbit", "Tolkien", 255, true);
 addBookToLibrary("Musashi", "Eiji Yoshikawa", 1000, true);
 addBookToLibrary("Lord of the Flies", "William Golding", 200, false);
 
-function printBook(book){
+function displayBookInTable(book){
     // get details of index-th book
     const title = book.title;
     const author = book.author;
@@ -62,8 +62,8 @@ function printBook(book){
     document.querySelector("#book-list").appendChild(newRow);
 }
 
-function printBooks(){
-    myLibrary.forEach(printBook);
+function displayAllBooksInTable(){
+    myLibrary.forEach(displayBookInTable);
 }
 
-printBooks();
+displayAllBooksInTable();
