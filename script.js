@@ -74,4 +74,8 @@ function displayAllBooksInTable(){
     else myLibrary.forEach(displayBookInTable);
 }
 
+function clearDisplayTable(){
+    document.querySelector("#book-list").querySelectorAll("tr").forEach(rowElt => rowElt.id !== "row-headers" && rowElt.remove());
+}
+
 displayAllBooksInTable(myLibrary);
