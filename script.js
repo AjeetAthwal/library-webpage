@@ -193,10 +193,16 @@ function handleForm(event) {
     event.preventDefault(); 
 }
 
+function closeFormOnOverlay(e){
+    if (e.target.id !== "overlay") return;
+    hideBookForm();
+}
+
 let myLibrary = getLocalLibraryStorage();
 displayAllBooksInTable();
 
 document.querySelector("#new-book-form").addEventListener("submit",addBookFromForm)
 document.querySelector("#new-book-form").addEventListener('submit', handleForm);
-document.querySelector("#cancel-new-book").addEventListener('click', hideBookForm);
+document.querySelector("#close-new-book-form").addEventListener('click', hideBookForm);
 document.querySelector("#new-book-btn").addEventListener('click', showBookForm);
+document.querySelector("#overlay").addEventListener('click',closeFormOnOverlay);
