@@ -1,4 +1,43 @@
-let myLibrary = [];
+function storageAvailable(type) {
+    let storage;
+    try {
+        storage = window[type];
+        var x = '__storage_test__';
+        storage.setItem(x, x);
+        storage.removeItem(x);
+        return true;
+    }
+    catch(e) {
+        return e instanceof DOMException && (
+            // everything except Firefox
+            e.code === 22 ||
+            // Firefox
+            e.code === 1014 ||
+            // test name field too, because code might not be present
+            // everything except Firefox
+            e.name === 'QuotaExceededError' ||
+            // Firefox
+            e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+            // acknowledge QuotaExceededError only if there's something already stored
+            (storage && storage.length !== 0);
+    }
+}
+
+function updateLocalLibraryStorage(){
+    if (storageAvailable("localStorage")){
+        localStorage.setItem("myLibrary",JSON.stringify(myLibrary));
+    }
+}
+
+function getLocalLibraryStorage(){
+    if (storageAvailable("localStorage")){
+        const newLibrary = JSON.parse(localStorage.getItem("myLibrary"));
+        if (newLibrary === undefined) return [];
+        return JSON.parse(localStorage.getItem("myLibrary"));
+    }
+}
+
+let myLibrary = getLocalLibraryStorage();
 
 function Book(title, author, pages, read){
     this.title = title;
@@ -8,8 +47,8 @@ function Book(title, author, pages, read){
 }
 
 function addBookToLibrary(title, author, pages, read){
-    // add book to library
     myLibrary.push(new Book(title, author, pages, read));
+    updateLocalLibraryStorage();
 }
 
 // function to look up table headers' class names
@@ -26,6 +65,7 @@ function toggleRead(){
     bookIndex = this.parentNode.parentNode.dataset.bookIndex;
     if (myLibrary[bookIndex].read === true) myLibrary[bookIndex].read = false;
     else myLibrary[bookIndex].read = true;
+    updateLocalLibraryStorage();
     refreshTable();
 }
 
@@ -63,6 +103,7 @@ function refreshTable(){
 function removeBook(){
     bookIndex = this.parentNode.parentNode.dataset.bookIndex;
     myLibrary.splice(bookIndex, 1);
+    updateLocalLibraryStorage();
     refreshTable();
 }
 
@@ -130,7 +171,7 @@ function addBookFromForm(e){
 
     document.querySelector("#new-book-form").reset();
 
-    addBookToLibrary(title, author, pages, read)
+    addBookToLibrary(title, author, pages, read);
     refreshTable();
 }
 
@@ -139,10 +180,6 @@ function handleForm(event) {
 }
 
 document.querySelector("#new-book-form").style.display = "none";
-
-addBookToLibrary("The Hobbit", "Tolkien", 255, true);
-addBookToLibrary("Musashi", "Eiji Yoshikawa", 1000, true);
-addBookToLibrary("Lord of the Flies", "William Golding", 200, false);
 
 displayAllBooksInTable();
 
