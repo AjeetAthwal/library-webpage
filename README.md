@@ -10,7 +10,6 @@ To do:
 
 - Redo UI
   - change edit icon to a toggle icon with animation
-  - Make table disappear when there are no books in the library but leave message that there are no books
   - Make form overlay the whole screen
   - format form (css grid ?)
   - submit button should make overlay disappear

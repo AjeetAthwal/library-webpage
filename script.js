@@ -150,17 +150,22 @@ function displayBookInTable(book, bookIndex){
 }
 
 function displayEmptyMessage(){
-    const newRowElt = document.createElement("tr");
-    const newEntry = document.createElement("td");
-    newEntry.innerText = "There are no books in the library!";
-    newEntry.colSpan = Array.from(document.querySelectorAll("th")).map(header => header.className).length;
-    newRowElt.appendChild(newEntry);
-    document.querySelector("#book-list").appendChild(newRowElt);
+    const newEntry = document.createElement("p");
+    newEntry.innerText = `There are no books in the library! Please add some books by clicking the button above`;
+    document.querySelector(".library-container").appendChild(newEntry);
 }
 
 function displayAllBooksInTable(){
-    if (myLibrary.length === 0) displayEmptyMessage();
-    else myLibrary.forEach(displayBookInTable);
+    if (myLibrary.length === 0) {
+        document.querySelector("#book-list").style.display = "none";
+        displayEmptyMessage();
+    }
+    else{
+        const pTag = document.querySelector(".library-container").querySelector("p");
+        if (pTag !== null) pTag.remove();
+        document.querySelector("#book-list").style.display = "block";
+        myLibrary.forEach(displayBookInTable);
+    }
 }
 
 function hideBookFormAndShowAddNewBookBtn(){

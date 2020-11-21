@@ -116,3 +116,8 @@ label[for="read-yes"], label[for="read-no"]{
 .read>.table-entry>div{
     width: 50%;
 }
+
+p{
+    text-align: center;
+    color: var(--main-color);
+}
