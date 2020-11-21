@@ -1,5 +1,6 @@
 body{
     font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.5em;
 }
 
 h1{
@@ -16,6 +17,10 @@ td, th{
     padding: 8px;
 }
 
+th {
+    font-size: 1.5em;
+}
+
 tr:nth-child(even) {
     background-color: #dddddd;
 }
@@ -25,7 +30,9 @@ button, input[type=submit]{
     outline: none;
     border-radius: 3px;
     cursor: pointer;
-    border: black 1px solid;
+    border: black 1px none;
+    height: 50px;
+    width: 150px;
 }
 
 .yes-btn{
@@ -40,12 +47,11 @@ button, input[type=submit]{
     border: 2px black solid;
     text-align: center;
     padding: 20px;
-    height: 250px;
-    width: 250px;
+    height: 400px;
+    width: 400px;
 }
 
 .edit-icon{
     height: 15px;
     cursor: pointer;
-
 }

@@ -69,7 +69,7 @@ function removeBook(){
 function addRemoveBtn(rowElt){
     removeBtn = document.createElement("button");
     removeBtn.classList = "no-btn";
-    removeBtn.innerText = "x";
+    removeBtn.innerText = "Remove Book";
     removeBtn.addEventListener("click", removeBook);
 
     removeBtnTd = document.createElement("td");
