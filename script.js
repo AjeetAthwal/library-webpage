@@ -46,7 +46,14 @@ function makeTrBookElt(bookDetails, bookIndex){
         addTdBookElt(newRowElt, bookDetails.bookHeaders[bookIndex], bookDetails.bookEntries[bookIndex])
     }
 
-    // add a remove button for each row
+    removeBtn = document.createElement("button");
+    removeBtn.classList = "no-btn";
+    removeBtn.innerText = "x";
+
+    removeBtnTd = document.createElement("td");
+    removeBtnTd.appendChild(removeBtn);
+
+    newRowElt.appendChild(removeBtnTd);
 
     document.querySelector("#book-list").appendChild(newRowElt);
 }
@@ -61,7 +68,6 @@ function displayEmptyMessage(){
     const newEntry = document.createElement("td");
     newEntry.innerText = "There are no books in the library!";
     newEntry.colSpan = Array.from(document.querySelectorAll("th")).map(header => header.className).length;
-    // add a remove button for each row
     newRowElt.appendChild(newEntry);
     document.querySelector("#book-list").appendChild(newRowElt);
 }
