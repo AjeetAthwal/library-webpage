@@ -1,4 +1,5 @@
 let myLibrary = [];
+document.querySelector("#new-book-form").style.display = "none";
 
 function Book(title, author, pages, read){
     this.title = title;
@@ -78,36 +79,14 @@ function displayAllBooksInTable(){
 function clearDisplayTable(){
     document.querySelector("#book-list").querySelectorAll("tr").forEach(rowElt => rowElt.id !== "row-headers" && rowElt.remove());
 }
-
-function createAddNewBookBtn(){
-    const newBookBtn = document.createElement("button");
-    newBookBtn.id = "new-book-btn";
-    newBookBtn.innerText = "Add New Book";
-    document.querySelector(".new-book").appendChild(newBookBtn);
-}
-
-function removeAddNewBookBtn(){
-    document.querySelector("#new-book-btn").remove();
-}
-
-
-function createBookForm(){
-    const newBookForm = document.createElement("form");
-    document.querySelector(".new-book").appendChild(newBookForm);
-}
-
-function removeBookForm(){
-    document.querySelector("#new-book-form").remove();
-}
-
 function removeBookFormAndCreateAddNewBookBtn(){
-    removeBookForm();
-    createAddNewBookBtn();
+    document.querySelector("#new-book-form").style.display = "none";
+    document.querySelector("#new-book-btn").style.display = "block";
 }
 
 function removeAddNewBookBtnAndCreateBookForm(){
-    removeAddNewBookBtn();
-    createBookForm();
+    document.querySelector("#new-book-btn").style.display = "none";
+    document.querySelector("#new-book-form").style.display = "block";
 }
 
 function addBookFromForm(e){
@@ -124,7 +103,6 @@ function addBookFromForm(e){
     displayAllBooksInTable();
 }
 
-createAddNewBookBtn();
 displayAllBooksInTable();
 
 document.querySelector("#new-book-form").addEventListener("submit",addBookFromForm)
@@ -136,3 +114,4 @@ function handleForm(event) {
 document.querySelector("#new-book-form").addEventListener('submit', handleForm);
 
 document.querySelector("#cancel-new-book").addEventListener('click', removeBookFormAndCreateAddNewBookBtn);
+document.querySelector("#new-book-btn").addEventListener('click', removeAddNewBookBtnAndCreateBookForm);
