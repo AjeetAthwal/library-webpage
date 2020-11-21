@@ -32,9 +32,10 @@ function updateLocalLibraryStorage(){
 function getLocalLibraryStorage(){
     if (storageAvailable("localStorage")){
         const newLibrary = JSON.parse(localStorage.getItem("myLibrary"));
-        if (newLibrary === undefined) return [];
+        if (newLibrary === null) return [];
         return JSON.parse(localStorage.getItem("myLibrary"));
     }
+    return [];
 }
 
 let myLibrary = getLocalLibraryStorage();
