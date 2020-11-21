@@ -40,6 +40,8 @@ button, input[type=submit]{
     border: 2px black solid;
     text-align: center;
     padding: 20px;
+    height: 250px;
+    width: 250px;
 }
 
 .edit-icon{
