@@ -50,6 +50,7 @@ button, input[type=submit]{
     padding: 20px;
     height: 400px;
     width: 400px;
+    background-color: #aaaaaa;
 }
 
 .edit-icon{
