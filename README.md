@@ -10,7 +10,6 @@ To do:
 
 - Redo UI
   - change edit icon to a toggle icon with animation
-  - Make form overlay the whole screen
   - format form (css grid ?)
   - submit button should make overlay disappear
   - new submit button ("submit and add another") should stay on form

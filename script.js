@@ -168,14 +168,12 @@ function displayAllBooksInTable(){
     }
 }
 
-function hideBookFormAndShowAddNewBookBtn(){
-    document.querySelector("#new-book-form").style.display = "none";
-    document.querySelector("#new-book-btn").style.display = "block";
+function hideBookForm(){
+    document.querySelector("#overlay").style.display = "none";
 }
 
-function hideAddNewBookBtnAndShowBookForm(){
-    document.querySelector("#new-book-btn").style.display = "none";
-    document.querySelector("#new-book-form").style.display = "block";
+function showBookForm(){
+    document.querySelector("#overlay").style.display = "flex";
 }
 
 function addBookFromForm(e){
@@ -200,5 +198,5 @@ displayAllBooksInTable();
 
 document.querySelector("#new-book-form").addEventListener("submit",addBookFromForm)
 document.querySelector("#new-book-form").addEventListener('submit', handleForm);
-document.querySelector("#cancel-new-book").addEventListener('click', hideBookFormAndShowAddNewBookBtn);
-document.querySelector("#new-book-btn").addEventListener('click', hideAddNewBookBtnAndShowBookForm);
+document.querySelector("#cancel-new-book").addEventListener('click', hideBookForm);
+document.querySelector("#new-book-btn").addEventListener('click', showBookForm);
