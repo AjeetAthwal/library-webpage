@@ -39,7 +39,7 @@ function addTdBookElt(rowElt, header, entry){
 }
 
 function refreshTable(){
-    clearDisplayTable();
+    document.querySelector("#book-list").querySelectorAll("tr").forEach(rowElt => rowElt.id !== "row-headers" && rowElt.remove());
     displayAllBooksInTable();
 }
 
@@ -47,6 +47,18 @@ function removeBook(){
     bookIndex = this.parentNode.parentNode.dataset.bookIndex;
     myLibrary.splice(bookIndex, 1);
     refreshTable();
+}
+
+function addRemoveBtn(rowElt){
+    removeBtn = document.createElement("button");
+    removeBtn.classList = "no-btn";
+    removeBtn.innerText = "x";
+    removeBtn.addEventListener("click", removeBook);
+
+    removeBtnTd = document.createElement("td");
+    removeBtnTd.appendChild(removeBtn);
+
+    rowElt.appendChild(removeBtnTd);
 }
 
 function makeTrBookElt(bookDetails, bookIndex){
@@ -57,15 +69,7 @@ function makeTrBookElt(bookDetails, bookIndex){
         addTdBookElt(newRowElt, bookDetails.bookHeaders[bookIndex], bookDetails.bookEntries[bookIndex])
     }
 
-    removeBtn = document.createElement("button");
-    removeBtn.classList = "no-btn";
-    removeBtn.innerText = "x";
-    removeBtn.addEventListener("click", removeBook);
-
-    removeBtnTd = document.createElement("td");
-    removeBtnTd.appendChild(removeBtn);
-
-    newRowElt.appendChild(removeBtnTd);
+    addRemoveBtn(newRowElt);
 
     document.querySelector("#book-list").appendChild(newRowElt);
 }
@@ -89,15 +93,13 @@ function displayAllBooksInTable(){
     else myLibrary.forEach(displayBookInTable);
 }
 
-function clearDisplayTable(){
-    document.querySelector("#book-list").querySelectorAll("tr").forEach(rowElt => rowElt.id !== "row-headers" && rowElt.remove());
-}
-function removeBookFormAndCreateAddNewBookBtn(){
+
+function hideBookFormAndShowAddNewBookBtn(){
     document.querySelector("#new-book-form").style.display = "none";
     document.querySelector("#new-book-btn").style.display = "block";
 }
 
-function removeAddNewBookBtnAndCreateBookForm(){
+function hideAddNewBookBtnAndShowBookForm(){
     document.querySelector("#new-book-btn").style.display = "none";
     document.querySelector("#new-book-form").style.display = "block";
 }
@@ -129,5 +131,5 @@ displayAllBooksInTable();
 
 document.querySelector("#new-book-form").addEventListener("submit",addBookFromForm)
 document.querySelector("#new-book-form").addEventListener('submit', handleForm);
-document.querySelector("#cancel-new-book").addEventListener('click', removeBookFormAndCreateAddNewBookBtn);
-document.querySelector("#new-book-btn").addEventListener('click', removeAddNewBookBtnAndCreateBookForm);
+document.querySelector("#cancel-new-book").addEventListener('click', hideBookFormAndShowAddNewBookBtn);
+document.querySelector("#new-book-btn").addEventListener('click', hideAddNewBookBtnAndShowBookForm);
