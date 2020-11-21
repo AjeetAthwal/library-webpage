@@ -90,12 +90,49 @@ function removeAddNewBookBtn(){
     document.querySelector("#new-book-btn").remove();
 }
 
-function createBookForm(){
-    removeAddNewBookBtn();
 
+function createBookForm(){
     const newBookForm = document.createElement("form");
     document.querySelector(".new-book").appendChild(newBookForm);
 }
 
+function removeBookForm(){
+    document.querySelector("#new-book-form").remove();
+}
+
+function removeBookFormAndCreateAddNewBookBtn(){
+    removeBookForm();
+    createAddNewBookBtn();
+}
+
+function removeAddNewBookBtnAndCreateBookForm(){
+    removeAddNewBookBtn();
+    createBookForm();
+}
+
+function addBookFromForm(e){
+    // get form values
+    const title = document.querySelector("#title").value;
+    const author = document.querySelector("#author").value;
+    const pages = document.querySelector("#pages").value;
+    const read = document.querySelector("#read-yes").checked ? true : false;
+
+    document.querySelector("#new-book-form").reset();
+
+    addBookToLibrary(title, author, pages, read)
+    clearDisplayTable();
+    displayAllBooksInTable();
+}
+
 createAddNewBookBtn();
-displayAllBooksInTable(myLibrary);
+displayAllBooksInTable();
+
+document.querySelector("#new-book-form").addEventListener("submit",addBookFromForm)
+
+
+function handleForm(event) { 
+    event.preventDefault(); 
+} 
+document.querySelector("#new-book-form").addEventListener('submit', handleForm);
+
+document.querySelector("#cancel-new-book").addEventListener('click', removeBookFormAndCreateAddNewBookBtn);

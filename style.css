@@ -24,3 +24,9 @@ tr:nth-child(even) {
     cursor: pointer;
     border: black 1px solid;
 }
+
+#new-book-form{
+    border: 2px black solid;
+    text-align: center;
+    padding: 20px;
+}

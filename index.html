@@ -8,19 +8,20 @@
 <body>
     <h1>Library</h1>
     <div class="new-book">
-        <form action="">
+        <form id="new-book-form" action="">
             <label for="title">Title:</label><br>
-            <input type="text" id="title" name="title"><br>
+            <input type="text" id="title" name="title" placeholder="e.g. The Hobbit" required><br>
             <label for="author">Author:</label><br>
-            <input type="text" id="author" name="author"><br>
+            <input type="text" id="author" name="author" placeholder="e.g. J.R.R Tolkien" required><br>
             <label for="pages">Number of Pages:</label><br>
-            <input type="number" id="pages" name="pages"><br>
+            <input type="number" id="pages" name="pages" required placeholder="e.g. 255"><br>
             <label for="read">Read:</label><br>
-            <label for="yes">Yes</label>
-            <input type="radio" id="yes" name="read">
-            <label for="yes">No</label>
-            <input type="radio" id="no" name="read"><br>
-            <input type="submit" value="Submit">
+            <label for="read-yes">Yes</label>
+            <input type="radio" id="read-yes" name="read" required>
+            <label for="read-no">No</label>
+            <input type="radio" id="read-no" name="read" required><br>
+            <input id="submit-new-book" type="submit" value="Submit">
+            <button id="cancel-new-book" type="button">Cancel</button>
         </form>
     </div>
     <div class=library-container>
