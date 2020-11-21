@@ -16,13 +16,20 @@ tr:nth-child(even) {
     background-color: #dddddd;
 }
 
-#new-book-btn{
-    background-color: rgb(44, 119, 37);
+button, input[type=submit]{
     color: white;
     outline: none;
     border-radius: 3px;
     cursor: pointer;
     border: black 1px solid;
+}
+
+.yes-btn{
+    background-color: rgb(44, 119, 37);
+}
+
+.no-btn{
+    background-color: rgb(230, 8, 8);
 }
 
 #new-book-form{

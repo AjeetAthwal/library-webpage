@@ -1,5 +1,4 @@
 let myLibrary = [];
-document.querySelector("#new-book-form").style.display = "none";
 
 function Book(title, author, pages, read){
     this.title = title;
@@ -12,10 +11,6 @@ function addBookToLibrary(title, author, pages, read){
     // add book to library
     myLibrary.push(new Book(title, author, pages, read));
 }
-
-addBookToLibrary("The Hobbit", "Tolkien", 255, true);
-addBookToLibrary("Musashi", "Eiji Yoshikawa", 1000, true);
-addBookToLibrary("Lord of the Flies", "William Golding", 200, false);
 
 // function to look up table headers' class names
 // and return an array with matching entries for that book
@@ -103,15 +98,19 @@ function addBookFromForm(e){
     displayAllBooksInTable();
 }
 
+function handleForm(event) { 
+    event.preventDefault(); 
+}
+
+document.querySelector("#new-book-form").style.display = "none";
+
+addBookToLibrary("The Hobbit", "Tolkien", 255, true);
+addBookToLibrary("Musashi", "Eiji Yoshikawa", 1000, true);
+addBookToLibrary("Lord of the Flies", "William Golding", 200, false);
+
 displayAllBooksInTable();
 
 document.querySelector("#new-book-form").addEventListener("submit",addBookFromForm)
-
-
-function handleForm(event) { 
-    event.preventDefault(); 
-} 
 document.querySelector("#new-book-form").addEventListener('submit', handleForm);
-
 document.querySelector("#cancel-new-book").addEventListener('click', removeBookFormAndCreateAddNewBookBtn);
 document.querySelector("#new-book-btn").addEventListener('click', removeAddNewBookBtnAndCreateBookForm);
