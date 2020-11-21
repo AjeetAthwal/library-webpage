@@ -38,6 +38,17 @@ function addTdBookElt(rowElt, header, entry){
     rowElt.appendChild(newEntry);
 }
 
+function refreshTable(){
+    clearDisplayTable();
+    displayAllBooksInTable();
+}
+
+function removeBook(){
+    bookIndex = this.parentNode.parentNode.dataset.bookIndex;
+    myLibrary.splice(bookIndex, 1);
+    refreshTable();
+}
+
 function makeTrBookElt(bookDetails, bookIndex){
     const newRowElt = document.createElement("tr");
     newRowElt.dataset.bookIndex = bookIndex;
@@ -49,6 +60,7 @@ function makeTrBookElt(bookDetails, bookIndex){
     removeBtn = document.createElement("button");
     removeBtn.classList = "no-btn";
     removeBtn.innerText = "x";
+    removeBtn.addEventListener("click", removeBook);
 
     removeBtnTd = document.createElement("td");
     removeBtnTd.appendChild(removeBtn);
@@ -100,8 +112,7 @@ function addBookFromForm(e){
     document.querySelector("#new-book-form").reset();
 
     addBookToLibrary(title, author, pages, read)
-    clearDisplayTable();
-    displayAllBooksInTable();
+    refreshTable();
 }
 
 function handleForm(event) { 
