@@ -37,3 +37,9 @@ button, input[type=submit]{
     text-align: center;
     padding: 20px;
 }
+
+.edit-icon{
+    height: 15px;
+    cursor: pointer;
+
+}

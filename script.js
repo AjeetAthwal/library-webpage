@@ -22,6 +22,13 @@ function getBookDetails(book){
     return {bookHeaders, bookEntries}
 }
 
+function toggleRead(){
+    bookIndex = this.parentNode.parentNode.dataset.bookIndex;
+    if (myLibrary[bookIndex].read === true) myLibrary[bookIndex].read = false;
+    else myLibrary[bookIndex].read = true;
+    refreshTable();
+}
+
 function addTdBookElt(rowElt, header, entry){
     const newEntry = document.createElement("td");
     
@@ -31,9 +38,19 @@ function addTdBookElt(rowElt, header, entry){
         else entry = "No";
     }
 
+
     newEntry.innerText = entry;
     newEntry.classList.add(header);
 
+    // add edit icon to read
+    if (header === "read"){
+        const editIcon = document.createElement("img");
+        editIcon.src = "/images/edit_icon.png";
+        editIcon.alt = "Edit";
+        editIcon.classList = "edit-icon";
+        editIcon.addEventListener("click", toggleRead)
+        newEntry.appendChild(editIcon);
+    }
     // append td to tr
     rowElt.appendChild(newEntry);
 }
