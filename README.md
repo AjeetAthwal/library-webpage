@@ -9,11 +9,12 @@ Live Link:
 To do:
 
 -   Redo UI
+    -   fix read toggle (css flexbox?)
     -   Make table disappear when there are no books in the library but leave message that there are no books
     -   Make form overlay the whole screen
-    -   format form
+    -   format form (css grid ?)
     -   submit button should make overlay disappear
-    -   new submit button should stay on form
+    -   new submit button ("submit and add another") should stay on form
 -   Add a backend?
     -   Give choice between local and server storage
     -   Have first screen be an overlay between the two options
