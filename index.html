@@ -11,19 +11,20 @@
     <div class="new-book">
         <button  class="yes-btn" id="new-book-btn">Add New Book</button>
         <form id="new-book-form" action="">
-            <label for="title">Title:</label><br>
-            <input type="text" id="title" name="title" placeholder="e.g. The Hobbit" required><br><br>
-            <label for="author">Author:</label><br>
-            <input type="text" id="author" name="author" placeholder="e.g. J.R.R Tolkien" required><br><br>
-            <label for="pages">Number of Pages:</label><br>
-            <input type="number" id="pages" name="pages" required placeholder="e.g. 255"><br><br>
-            <label for="read">Read:</label><br>
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" placeholder="e.g. The Hobbit" required><br><br><br>
+            <label for="author">Author:</label>
+            <input type="text" id="author" name="author" placeholder="e.g. J.R.R Tolkien" required><br><br><br>
+            <label for="pages">Number of Pages:</label>
+            <input type="number" id="pages" name="pages" required placeholder="e.g. 255"><br><br><br>
+            <label for="read">Read:</label>
             <label for="read-yes">Yes</label>
             <input type="radio" id="read-yes" name="read" required>
             <label for="read-no">No</label>
             <input type="radio" id="read-no" name="read" required><br><br>
             <input id="submit-new-book" class="yes-btn" type="submit" value="Submit">
-            <button id="cancel-new-book" class="no-btn" type="button">Close</button>
+            <button id="cancel-new-book" class="no-btn" type="button">Close</button><br>
+            <input id="submit-new-book-again" class="yes-btn" type="submit" value="Submit">
         </form>
     </div>
     <div class=library-container>
@@ -31,7 +32,7 @@
             <tr id="row-headers">
                 <th class="title">Title</th>
                 <th class="author">Author</th>
-                <th class="pages">Number of Pages</th>
+                <th class="pages">Pages</th>
                 <th class="read">Read</th>
             </tr>
         </table>

@@ -1,29 +1,44 @@
+:root {
+    --main-bg: #dddddd;
+    --secondary-bg: #aaaaaa;
+    --tertiary-bg: #777777;
+    --main-color: #700000;
+}
+
 body{
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 1.5em;
-    background-color: #dddddd;
+    font-size: 2em;
+    background-color: var(--main-bg);
+    counter-reset: var(--main-color);
 }
 
 h1{
     font-size: 3em;
+    text-align: center;
+    color: var(--main-color);
 }
 
-table {
-    border-collapse: collapse;
-}
 
 td, th{
-    border: #aaaaaa 1px solid;
+    border: var(--tertiary-bg) 1px solid;
     text-align: left;
     padding: 8px;
 }
 
-th {
+th{
+    background-color: var(--main-color);
+    color: var(--main-bg);
     font-size: 1.5em;
+    text-align: center;
+}
+
+tr {
+    color: var(--main-color)
 }
 
 tr:nth-child(even) {
-    background-color: #aaaaaa;
+    background-color: var(--secondary-bg);
+    border: var(--main-bg) 1px solid;
 }
 
 button, input[type=submit]{
@@ -34,6 +49,11 @@ button, input[type=submit]{
     border: black 1px none;
     height: 50px;
     width: 150px;
+    font-size: 0.5em;
+}
+.off-table{
+    background-color: var(--main-bg);
+    border: none;
 }
 
 .yes-btn{
@@ -44,17 +64,44 @@ button, input[type=submit]{
     background-color: rgb(201, 15, 15);
 }
 
+
 #new-book-form{
     border: 2px black solid;
-    text-align: center;
     padding: 20px;
-    height: 400px;
-    width: 400px;
-    background-color: #aaaaaa;
+    height: 500px;
+    width: 500px;
+    background-color: var(--secondary-bg);
     display: none;
+    color: var(--main-color);
+}
+
+.new-book{
+    padding: 50px 0 50px 45%;
+}
+
+label[for="read-yes"], label[for="read-no"]{
+    font-size: 0.75em;
 }
 
 .edit-icon{
     height: 15px;
     cursor: pointer;
+}
+
+.title{
+    width: 30%;
+}
+
+.author{
+    width: 30%;
+}
+
+.pages{
+    width: 10%;
+    text-align: center;
+}
+
+.read{
+    width: 10%;
+    text-align: center;
 }

@@ -112,6 +112,7 @@ function addRemoveBtn(rowElt){
     removeBtn.addEventListener("click", removeBook);
 
     removeBtnTd = document.createElement("td");
+    removeBtnTd.classList = "off-table";
     removeBtnTd.appendChild(removeBtn);
 
     rowElt.appendChild(removeBtnTd);
