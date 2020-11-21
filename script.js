@@ -61,7 +61,7 @@ function getBookDetails(book){
 }
 
 function toggleRead(){
-    bookIndex = this.parentNode.parentNode.dataset.bookIndex;
+    bookIndex = this.parentNode.parentNode.parentNode.parentNode.dataset.bookIndex;
     if (myLibrary[bookIndex].read === true) myLibrary[bookIndex].read = false;
     else myLibrary[bookIndex].read = true;
     updateLocalLibraryStorage();
@@ -70,25 +70,38 @@ function toggleRead(){
 
 function addTdBookElt(rowElt, header, entry){
     const newEntry = document.createElement("td");
+    const tdDiv = document.createElement("div");
     
-    // for read, convert bool to Yes/No
+    // read special case
+    // convert bool to Yes/No
+    // add in div containers - one for text, one for image
     if (header === "read"){
         if (entry === true) entry = "Yes";
         else entry = "No";
     }
 
-    newEntry.innerText = entry;
-    newEntry.classList.add(header);
+    // put td's in div container first
+    const newDiv = document.createElement("div");
+    newDiv.innerText = entry;
+    tdDiv.classList = "table-entry";
+    tdDiv.appendChild(newDiv);
+    
 
     // add edit icon to read
     if (header === "read"){
+        const editDiv = document.createElement("div");
         const editIcon = document.createElement("img");
         editIcon.src = "images/edit_icon.png";
         editIcon.alt = "Edit";
         editIcon.classList = "edit-icon";
         editIcon.addEventListener("click", toggleRead)
-        newEntry.appendChild(editIcon);
+        editDiv.appendChild(editIcon);
+        tdDiv.appendChild(editDiv);
     }
+
+
+    newEntry.classList.add(header);
+    newEntry.appendChild(tdDiv);
     // append td to tr
     rowElt.appendChild(newEntry);
 }
