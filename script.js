@@ -38,8 +38,6 @@ function getLocalLibraryStorage(){
     return [];
 }
 
-let myLibrary = getLocalLibraryStorage();
-
 function Book(title, author, pages, read){
     this.title = title;
     this.author = author;
@@ -78,7 +76,6 @@ function addTdBookElt(rowElt, header, entry){
         if (entry === true) entry = "Yes";
         else entry = "No";
     }
-
 
     newEntry.innerText = entry;
     newEntry.classList.add(header);
@@ -152,7 +149,6 @@ function displayAllBooksInTable(){
     else myLibrary.forEach(displayBookInTable);
 }
 
-
 function hideBookFormAndShowAddNewBookBtn(){
     document.querySelector("#new-book-form").style.display = "none";
     document.querySelector("#new-book-btn").style.display = "block";
@@ -180,8 +176,7 @@ function handleForm(event) {
     event.preventDefault(); 
 }
 
-document.querySelector("#new-book-form").style.display = "none";
-
+let myLibrary = getLocalLibraryStorage();
 displayAllBooksInTable();
 
 document.querySelector("#new-book-form").addEventListener("submit",addBookFromForm)
