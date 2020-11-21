@@ -45,7 +45,7 @@ function addTdBookElt(rowElt, header, entry){
     // add edit icon to read
     if (header === "read"){
         const editIcon = document.createElement("img");
-        editIcon.src = "/images/edit_icon.png";
+        editIcon.src = "images/edit_icon.png";
         editIcon.alt = "Edit";
         editIcon.classList = "edit-icon";
         editIcon.addEventListener("click", toggleRead)
