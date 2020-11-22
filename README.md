@@ -11,8 +11,6 @@ To do:
 - Redo UI
   - change edit icon to a toggle icon with animation
   - format form (css grid ?)
-  - submit button should make overlay disappear
-  - new submit button ("submit and add another") should stay on form
 - Add a backend?
   - Give choice between local and server storage
   - Have first screen be an overlay between the two options

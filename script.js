@@ -187,6 +187,8 @@ function addBookFromForm(e){
 
     addBookToLibrary(title, author, pages, read);
     refreshTable();
+
+    if (e.submitter.id === "submit-new-book") hideBookForm();
 }
 
 function handleForm(event) { 
