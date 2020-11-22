@@ -76,6 +76,15 @@ button, input[type=submit]{
     text-align: center;
 }
 
+.library-container{
+    display: flex;
+}
+
+#book-list{
+width: 80%;
+    margin: auto;
+}
+
 #new-book-form-title{
     font-size: 1.5em;
 }
@@ -122,11 +131,11 @@ label[for="read-yes"], label[for="read-no"]{
 }
 
 .title{
-    width: 30%;
+    width: 40%;
 }
 
 .author{
-    width: 30%;
+    width: 40%;
 }
 
 .pages{
