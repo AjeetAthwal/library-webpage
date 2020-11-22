@@ -6,12 +6,12 @@ Live Link:
 
 - https://ajeetathwal.github.io/library-webpage/
 
-To do:
+Improvements to make in the future:
 
 - Redo UI
   - change edit icon to a toggle icon with animation
-  - format form (css grid ?)
-- Add a backend?
+  - Cleaner form
+- Add a backend server?
   - Give choice between local and server storage
   - Have first screen be an overlay between the two options
-  - look into firebase (or node if i have covered it)
+  - look into firebase (or node if i have covered it when i revisit this)
