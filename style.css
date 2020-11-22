@@ -118,8 +118,8 @@ button, input[type=submit]{
 }
 
 #overlay-subdiv{
-    height: var(--form-size);
-    width: var(--form-size);
+    height: 75%;
+    width: 75%;
     margin: auto;
     position: relative;
     border: 2px black solid;
@@ -127,10 +127,70 @@ button, input[type=submit]{
 }
 
 #new-book-form{
+
     height: 100%;
     width: 100%;
-    margin: 20px;
     color: var(--main-color);
+    display: grid;
+    grid-template-areas: 
+    "heading heading"
+    "heading heading"
+    "title-label title-form"
+    "author-label author-form"
+    "pages-label pages-form"
+    "read-label read-form"
+    "buttons buttons"
+    ;
+    grid-template-rows: repeat(8,1fr);
+    grid-template-columns: repeat(2,1fr);
+}
+
+#new-book-form>label{
+    margin:auto;
+}
+#new-book-form>input{
+    margin:auto;
+    height: 50%;
+    width: 75%;
+    font-size: 1em;
+    
+}
+
+.form-btns{
+    grid-area: buttons;
+    grid: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    margin: auto;
+}
+#new-book-form>p{
+    grid-area: heading;
+}
+#new-book-form>label[for="title"]{
+    grid-area: title-label;
+}
+#new-book-form>label[for="author"]{
+    grid-area: author-label;
+}
+#new-book-form>label[for="pages"]{
+    grid-area: pages-label;
+}
+#new-book-form>label[for="read"]{
+    grid-area: read-label;
+}
+#title{
+    grid-area: title-form;
+}
+#author{
+    grid-area: author-form;
+}
+#pages{
+    grid-area: pages-form;
+}
+.read-inputs{
+    grid-area: read-form;
+    margin: auto;
 }
 
 #new-book-btn{
