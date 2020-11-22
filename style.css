@@ -3,6 +3,9 @@
     --secondary-bg: #aaaaaa;
     --tertiary-bg: #777777;
     --main-color: #700000;
+    --form-size: 500px;
+    --yes-color:rgb(44, 119, 37);
+    --no-color:rgb(201, 15, 15);
 }
 
 body{
@@ -47,7 +50,7 @@ button, input[type=submit]{
     outline: none;
     border-radius: 3px;
     cursor: pointer;
-    border: black 1px none;
+    border: none;
     height: 50px;
     width: 150px;
     font-size: 0.5em;
@@ -58,21 +61,46 @@ button, input[type=submit]{
 }
 
 .yes-btn{
-    background-color: rgb(44, 119, 37);
+    background-color: var(--yes-color);
 }
 
 .no-btn{
-    background-color: rgb(201, 15, 15);
+    background-color: var(--no-color);
+}
+
+.close-btn{
+    background-color: var(--no-color);
+    border-radius: 25px;
+    height: 25px;
+    width: 25px;
+    text-align: center;
+}
+
+#new-book-form-title{
+    font-size: 1.5em;
+}
+
+#close-new-book-form{
+    position: absolute;
+    right: -12.5px;
+    top: -12.5px;
+    text-align: center;
+}
+
+#overlay-subdiv{
+    height: var(--form-size);
+    width: var(--form-size);
+    margin: auto;
+    position: relative;
+    border: 2px black solid;
+    background-color: var(--secondary-bg);
 }
 
 #new-book-form{
-    border: 2px black solid;
-    padding: 20px;
-    height: 500px;
-    width: 500px;
-    background-color: var(--secondary-bg);
+    height: 100%;
+    width: 100%;
+    margin: 20px;
     color: var(--main-color);
-    margin: auto;
 }
 
 #new-book-btn{

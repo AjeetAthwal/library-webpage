@@ -9,22 +9,25 @@
 <body>
     <h1>Library</h1>
     <div id="overlay">
-        <form id="new-book-form" action="">
-            <label for="title">Title:</label>
-            <input type="text" id="title" name="title" placeholder="e.g. The Hobbit" required><br><br><br>
-            <label for="author">Author:</label>
-            <input type="text" id="author" name="author" placeholder="e.g. J.R.R Tolkien" required><br><br><br>
-            <label for="pages">Number of Pages:</label>
-            <input type="number" id="pages" name="pages" required placeholder="e.g. 255"><br><br><br>
-            <label for="read">Read:</label>
-            <label for="read-yes">Yes</label>
-            <input type="radio" id="read-yes" name="read" required>
-            <label for="read-no">No</label>
-            <input type="radio" id="read-no" name="read" required><br><br>
-            <input id="submit-new-book" class="yes-btn" type="submit" value="Submit">
-            <button id="close-new-book-form" class="no-btn" type="button">Close</button><br>
-            <input id="submit-new-book-again" class="yes-btn" type="submit" value="Submit">
-        </form>
+        <div id="overlay-subdiv">
+            <button id="close-new-book-form" class="close-btn" type="button"><b>x</b></button>
+            <form id="new-book-form" action="">
+                <p id="new-book-form-title">Enter Book Details</p>
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" placeholder="e.g. The Hobbit" required><br><br><br>
+                <label for="author">Author:</label>
+                <input type="text" id="author" name="author" placeholder="e.g. J.R.R Tolkien" required><br><br><br>
+                <label for="pages">Number of Pages:</label>
+                <input type="number" id="pages" name="pages" required placeholder="e.g. 255"><br><br><br>
+                <label for="read">Read:</label>
+                <label for="read-yes">Yes</label>
+                <input type="radio" id="read-yes" name="read" required>
+                <label for="read-no">No</label>
+                <input type="radio" id="read-no" name="read" required><br><br>
+                <input id="submit-new-book" class="yes-btn" type="submit" value="Submit">
+                <input id="submit-new-book-again" class="yes-btn" type="submit" value="Submit and Add another">
+            </form>
+        </div>
     </div>
     <div class="new-book">
         <button  class="yes-btn" id="new-book-btn">Add New Book</button>
