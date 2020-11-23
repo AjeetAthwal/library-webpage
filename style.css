@@ -28,7 +28,7 @@ footer{
 }
 
 body{
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Nunito', sans-serif;
     font-size: 1.5em;
     background-color: var(--main-bg);
     counter-reset: var(--main-color);
@@ -44,9 +44,10 @@ h1{
 
 
 td, th{
-    border: var(--tertiary-bg) 1px solid;
     text-align: left;
     padding: 8px;
+    border-radius: 20px; 
+    border: var(--main-bg) 2px solid;
 }
 
 th{
@@ -57,13 +58,19 @@ th{
 }
 
 tr {
-    color: var(--main-color)
+    color: var(--main-color);
+    border: var(--main-bg) 1px solid;
 }
 
 tr:nth-child(even) {
     background-color: var(--secondary-bg);
-    border: var(--main-bg) 1px solid;
+    
 }
+
+tr:nth-child(odd) {
+    background-color: var(--tertiary-bg);
+}
+
 
 button, input[type=submit]{
     color: white;

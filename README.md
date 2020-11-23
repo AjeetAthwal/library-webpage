@@ -9,8 +9,6 @@ Live Link:
 Improvements to make in the future:
 
 - Redo UI
-  - more reddish background
-  - get rid of sharp corners
   - change font
   - responsive to max length (elipses)
   - move Library title to header and add book to header
