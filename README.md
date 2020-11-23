@@ -9,7 +9,6 @@ Live Link:
 Improvements to make in the future:
 
 - Redo UI
-  - move Library title to header and add book to header
   - Add personalised "Name" to Library Header
   - change edit icon to a toggle icon with animation
   - Cleaner form
