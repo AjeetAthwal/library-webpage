@@ -110,11 +110,14 @@ button, input[type=submit]{
     top: -50px;
 }
 
+.library-container{
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
 #book-list{
     width: 1200px;
     margin: auto;
-    padding-top: 100px;
-    padding-bottom: 100px;
 }
 
 #new-book-form-title{
