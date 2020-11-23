@@ -108,7 +108,7 @@ button, input[type=submit]{
 }
 
 #book-list{
-    width: 80%;
+    width: 1200px;
     margin: auto;
     padding-bottom: 100px;
 }
@@ -219,20 +219,20 @@ label[for="read-yes"], label[for="read-no"]{
 }
 
 .title{
-    width: 40%;
+    width: 400px;
 }
 
 .author{
-    width: 40%;
+    width: 400px;
 }
 
 .pages{
-    width: 10%;
+    width: 100px;
     text-align: center;
 }
 
 .read{
-    width: 10%;
+    width: 100px;
     text-align: center;
 }
 
@@ -273,4 +273,22 @@ footer>p{
     background-color: rgba(0,0,0,0.5); 
     z-index: 2;
     cursor: default;
+}
+
+.table-entry>div{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.title>.table-entry>div{
+    width: 400px;
+}
+
+.author>.table-entry>div{
+    width: 400px;
+}
+
+.pages>.table-entry>div{
+    width: 100px;
 }
