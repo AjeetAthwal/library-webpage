@@ -9,8 +9,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header></header>
-    <h1>Library</h1>
+    <header>
+        <ul>
+            <li><h1>Library</h1></li>
+            <li>
+                <div class="new-book">
+                    <button  class="yes-btn" id="new-book-btn">Add New Book</button>
+                </div>
+            </li>
+        </ul>
+    </header>
+    
     <div id="overlay">
         <div id="overlay-subdiv">
             <button id="close-new-book-form" class="close-btn" type="button"><b>x</b></button>
@@ -35,9 +44,6 @@
             </div>
             </form>
         </div>
-    </div>
-    <div class="new-book">
-        <button  class="yes-btn" id="new-book-btn">Add New Book</button>
     </div>
     <div class=library-container>
         <table id="book-list">
