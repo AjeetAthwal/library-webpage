@@ -151,7 +151,7 @@ function displayBookInTable(book, bookIndex){
 
 function displayEmptyMessage(){
     const newEntry = document.createElement("p");
-    newEntry.innerText = `There are no books in the library! Please add some books by clicking the button above`;
+    newEntry.innerText = `There are no books in the library! Please add some books by clicking the button in the top left`;
     document.querySelector(".library-container").appendChild(newEntry);
 }
 
