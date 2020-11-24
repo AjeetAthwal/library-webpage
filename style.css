@@ -44,7 +44,8 @@ h1{
 td, th{
     text-align: left;
     padding: 8px;
-    border-radius: 20px; 
+    /* doesn't work on firefox */
+    /* border-radius: 20px; */
     border: var(--main-bg) 2px solid;
 }
 
