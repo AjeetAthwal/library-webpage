@@ -31,10 +31,9 @@ function updateLocalLibraryStorage(){
 
 function getLocalLibraryStorage(){
     if (storageAvailable("localStorage")){
-        const testLibrary = JSON.parse(localStorage.getItem("myLibrary"));
-        if (testLibrary === null) return [];
-        const newLibrary = testLibrary.map(book => new Book(book.title, book.author, book.pages, book.read));
-        return newLibrary;
+        const newLibrary = JSON.parse(localStorage.getItem("myLibrary"));
+        if (newLibrary === null) return [];
+        return newLibrary.map(book => new Book(book.title, book.author, book.pages, book.read));
     }
     return [];
 }
