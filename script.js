@@ -126,8 +126,13 @@ const Library = (() => {
             else this.read = true;
         }
 
-        getReadEntry() {
-            return this.read === true ? "Yes" : "No";
+        getTableEntry(header) {
+            if (header === "read") {
+                return this.read === true ? "Yes" : "No";
+            }
+            if (header === "pages") return this.pages;
+            if (header === "author") return this.author;
+            if (header === "title") return this.title;
         }
 
         toJSON() {
@@ -176,6 +181,10 @@ const Library = (() => {
 
         toggleRead(bookIndex){
             this._library[bookIndex].toggleRead();
+        }
+
+        getTableEntry(bookIndex, header){
+            this._library[bookIndex].getTableEntry(header);
         }
 
         toJSON() {
