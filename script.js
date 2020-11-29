@@ -31,19 +31,21 @@ function updateLocalLibraryStorage(){
 
 function getLocalLibraryStorage(){
     if (storageAvailable("localStorage")){
-        const newLibrary = JSON.parse(localStorage.getItem("myLibrary"));
-        if (newLibrary === null) return [];
+        const testLibrary = JSON.parse(localStorage.getItem("myLibrary"));
+        if (testLibrary === null) return [];
+        const newLibrary = testLibrary.map(book => new Book(book.title, book.author, book.pages, book.read));
         return newLibrary;
     }
     return [];
 }
 
 class Book{
+    // not using # for now - new and experimental
     constructor(title, author, pages, read){
-        this.title = title;
-        this.author = author;
-        this.pages = pages;
-        this.read = read;        
+        this._title = title;
+        this._author = author;
+        this._pages = pages;
+        this._read = read;        
     }
 
     get title(){
@@ -51,8 +53,10 @@ class Book{
     }
 
     set title(newTitle){
-        if (typeof newTitle === "string")   this._title = newTitle;
-        else throw new Error("Title must be a string")
+        if (typeof newTitle !== "string") throw new Error("Title must be a string");
+        if (newTitle === "") throw new Error("Title must not be empty");
+        this._title = newTitle;
+        
     }
 
     get author(){
@@ -60,8 +64,9 @@ class Book{
     }
 
     set author(newAuthor){
-        if (typeof newAuthor === "string")   this._author = newAuthor;
-        else throw new Error("Author must be a string")
+        if (typeof newAuthor !== "string") throw new Error("Author must be a string");
+        if (newAuthor === "") throw new Error("Author must not be empty");
+        this._author = newAuthor;
     }
 
     get pages(){
@@ -69,8 +74,8 @@ class Book{
     }
 
     set pages(newPages){
-        if (typeof newPages === "number")   this._pages = newPages;
-        else throw new Error("Pages must be an integer");
+        if (typeof newPages !== "number") throw new Error("Pages must be an integer");
+        this._pages = newPages;
     }
 
     get read(){
@@ -78,8 +83,17 @@ class Book{
     }
 
     set read(hasRead){
-        if (typeof hasRead === "boolean")   this._read = hasRead;
-        else throw new Error("Read must be a boolean");
+        if (typeof hasRead !== "boolean") throw new Error("Read must be a boolean");
+        this._read = hasRead;
+    }
+
+    toJSON() {
+        return{
+            title: this.title,
+            author: this.author,
+            pages: this.pages,
+            read: this.read,
+        }
     }
 }
 
