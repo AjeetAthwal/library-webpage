@@ -1,47 +1,70 @@
-// Storage
-function storageAvailable(type) {
-    let storage;
-    try {
-        storage = window[type];
-        var x = '__storage_test__';
-        storage.setItem(x, x);
-        storage.removeItem(x);
-        return true;
+class LibraryStorage{
+    constructor(){
+        this._serverStorageWanted =  false;
+        this._localStorageWanted = true;
     }
-    catch(e) {
-        return e instanceof DOMException && (
-            // everything except Firefox
-            e.code === 22 ||
-            // Firefox
-            e.code === 1014 ||
-            // test name field too, because code might not be present
-            // everything except Firefox
-            e.name === 'QuotaExceededError' ||
-            // Firefox
-            e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
-            // acknowledge QuotaExceededError only if there's something already stored
-            (storage && storage.length !== 0);
+
+    _updateLocalStorage(){
+        if (this._storageAvailable("localStorage")){
+            localStorage.setItem("myLibrary",JSON.stringify(myLibrary));
+        }
+    }
+
+    _updateServerStorage(){
+        //
+        return;
+    }
+
+    updateStorage(){
+        if (this._serverStorageWanted) this._updateServerStorage();
+        else if (this._localStorageWanted) this._updateLocalStorage();
+    }
+
+    _getLocalStorage(){
+        if (this._storageAvailable("localStorage")){
+            const newLibrary = JSON.parse(localStorage.getItem("myLibrary"));
+            if (newLibrary === null) return [];
+            return newLibrary;
+        }
+        return [];
+    }
+
+    _getServerStorage(){
+        //
+        return;
+    }
+
+    getStorage(){
+        if (this._serverStorageWanted) return this._getServerStorage();
+        else if (this._localStorageWanted) {
+            return this._getLocalStorage();}
+    }
+
+    _storageAvailable(type) {
+        let storage;
+        try {
+            storage = window[type];
+            var x = '__storage_test__';
+            storage.setItem(x, x);
+            storage.removeItem(x);
+            return true;
+        }
+        catch(e) {
+            return e instanceof DOMException && (
+                // everything except Firefox
+                e.code === 22 ||
+                // Firefox
+                e.code === 1014 ||
+                // test name field too, because code might not be present
+                // everything except Firefox
+                e.name === 'QuotaExceededError' ||
+                // Firefox
+                e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+                // acknowledge QuotaExceededError only if there's something already stored
+                (storage && storage.length !== 0);
+        }
     }
 }
-
-// Storage
-function updateLocalLibraryStorage(){
-    if (storageAvailable("localStorage")){
-        localStorage.setItem("myLibrary",JSON.stringify(myLibrary));
-    }
-}
-
-// Storage
-function getLocalLibraryStorage(){
-    if (storageAvailable("localStorage")){
-        const newLibrary = JSON.parse(localStorage.getItem("myLibrary"));
-        if (newLibrary === null) return [];
-        console.log(newLibrary)
-        return newLibrary;
-    }
-    return [];
-}
-
 class Book{
     // not using # for now - new and experimental
     constructor(title, author, pages, read){
@@ -108,10 +131,6 @@ class Book{
         }
     }
 }
-// Library or DOM
-function addBookToLibrary(title, author, pages, read){
-    myLibrary.push(new Book(title, author, pages, read));
-}
 
 // DOM
 // function to look up table headers' class names
@@ -127,8 +146,8 @@ function getBookDetails(book){
 // DOM
 function toggleRead(){
     bookIndex = this.parentNode.parentNode.parentNode.parentNode.dataset.bookIndex;
-    myLibrary[bookIndex].toggleRead();
-    updateLocalLibraryStorage();
+    myLibrary.getBookNumber(bookIndex).toggleRead();
+    libraryStorage.updateStorage();
     refreshTable();
 }
 
@@ -181,7 +200,7 @@ function refreshTable(){
 function removeBook(){
     bookIndex = this.parentNode.parentNode.dataset.bookIndex;
     myLibrary.removeBookFromLibrary(bookIndex);
-    updateLocalLibraryStorage();
+    libraryStorage.updateStorage();
     refreshTable();
 }
 
@@ -261,7 +280,7 @@ function addBookFromForm(e){
     document.querySelector("#new-book-form").reset();
 
     myLibrary.addBookToLibrary(title, author, pages, read);
-    updateLocalLibraryStorage();
+    libraryStorage.updateStorage();
     refreshTable();
 
     if (e.submitter.id === "submit-new-book") hideBookForm();
@@ -308,6 +327,10 @@ class Library{
         return this._library;
     }
 
+    getBookNumber(bookIndex){
+        return this._library[bookIndex];
+    }
+
     toJSON() {
         return{
             library: this.library
@@ -315,9 +338,12 @@ class Library{
     }
 }
 
+
+const libraryStorage = new LibraryStorage();
+
 // Library
 //let myLibrary = getLocalLibraryStorage();
-const myLibrary = new Library(getLocalLibraryStorage());
+const myLibrary = new Library(libraryStorage.getStorage());
 // DOM
 displayAllBooksInTable();
 
