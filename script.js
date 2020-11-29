@@ -1,182 +1,197 @@
-class LibraryStorage{
-    constructor(){
-        this._serverStorageWanted =  false;
-        this._localStorageWanted = true;
-    }
-
-    _updateLocalStorage(){
-        if (this._storageAvailable("localStorage")){
-            localStorage.setItem("myLibrary",JSON.stringify(myLibrary));
+const LibraryStorage = (() => {
+    class LibraryStorage{
+        constructor(){
+            this._serverStorageWanted =  false;
+            this._localStorageWanted = true;
         }
-    }
 
-    _updateServerStorage(){
-        //
-        return;
-    }
-
-    updateStorage(){
-        if (this._serverStorageWanted) this._updateServerStorage();
-        else if (this._localStorageWanted) this._updateLocalStorage();
-    }
-
-    _getLocalStorage(){
-        if (this._storageAvailable("localStorage")){
-            const newLibrary = JSON.parse(localStorage.getItem("myLibrary"));
-            if (newLibrary === null) return [];
-            return newLibrary;
-        }
-        return [];
-    }
-
-    _getServerStorage(){
-        //
-        return;
-    }
-
-    getStorage(){
-        if (this._serverStorageWanted) return this._getServerStorage();
-        else if (this._localStorageWanted) {
-            return this._getLocalStorage();}
-    }
-
-    _storageAvailable(type) {
-        let storage;
-        try {
-            storage = window[type];
-            var x = '__storage_test__';
-            storage.setItem(x, x);
-            storage.removeItem(x);
-            return true;
-        }
-        catch(e) {
-            return e instanceof DOMException && (
-                // everything except Firefox
-                e.code === 22 ||
-                // Firefox
-                e.code === 1014 ||
-                // test name field too, because code might not be present
-                // everything except Firefox
-                e.name === 'QuotaExceededError' ||
-                // Firefox
-                e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
-                // acknowledge QuotaExceededError only if there's something already stored
-                (storage && storage.length !== 0);
-        }
-    }
-}
-
-class Book{
-    // not using # for now - new and experimental
-    constructor(title, author, pages, read){
-        this._title = title;
-        this._author = author;
-        this._pages = pages;
-        this._read = read;        
-    }
-
-    get title(){
-        return this._title;
-    }
-
-    set title(newTitle){
-        if (typeof newTitle !== "string") throw new Error("Title must be a string");
-        if (newTitle === "") throw new Error("Title must not be empty");
-        this._title = newTitle;
-        
-    }
-
-    get author(){
-        return this._author;
-    }
-
-    set author(newAuthor){
-        if (typeof newAuthor !== "string") throw new Error("Author must be a string");
-        if (newAuthor === "") throw new Error("Author must not be empty");
-        this._author = newAuthor;
-    }
-
-    get pages(){
-        return this._pages;
-    }
-
-    set pages(newPages){
-        if (typeof newPages !== "number") throw new Error("Pages must be an integer");
-        this._pages = newPages;
-    }
-
-    get read(){
-        return this._read;
-    }
-
-    set read(hasRead){
-        if (typeof hasRead !== "boolean") throw new Error("Read must be a boolean");
-        this._read = hasRead;
-    }
-
-    toggleRead() {
-        if (this.read === true) this.read = false;
-        else this.read = true;
-    }
-
-    getReadEntry() {
-        return this.read === true ? "Yes" : "No";
-    }
-
-    toJSON() {
-        return{
-            title: this.title,
-            author: this.author,
-            pages: this.pages,
-            read: this.read,
-        }
-    }
-}
-
-class Library{
-    // not using # for now - new and experimental
-    constructor(library){
-        if (Array.isArray(library["library"])){
-            if (library["library"] === []) this._library = library["library"];
-            else {
-                this._library = library["library"].map(book => new Book(book.title, book.author, book.pages, book.read));
+        _updateLocalStorage(){
+            if (this._storageAvailable("localStorage")){
+                localStorage.setItem("myLibrary",JSON.stringify(Library.myLibrary));
             }
         }
-        else this._library = [];
 
-    }
+        _updateServerStorage(){
+            //
+            return;
+        }
 
-    addBookToLibrary(title, author, pages, read){
-        this._library.push(new Book(title, author, pages, read));
-    }
+        updateStorage(){
+            if (this._serverStorageWanted) this._updateServerStorage();
+            else if (this._localStorageWanted) this._updateLocalStorage();
+        }
 
-    removeBookFromLibrary(bookIndex){
-        let book = this.library.splice(bookIndex, 1);
-        return book;
-    }
+        _getLocalStorage(){
+            if (this._storageAvailable("localStorage")){
+                const newLibrary = JSON.parse(localStorage.getItem("myLibrary"));
+                if (newLibrary === null) return [];
+                return newLibrary;
+            }
+            return [];
+        }
 
-    get isEmpty(){
-        return this.library.length === 0 ? true : false;
-    }
+        _getServerStorage(){
+            //
+            return;
+        }
 
-    get library(){
-        return this._library;
-    }
+        getStorage(){
+            if (this._serverStorageWanted) return this._getServerStorage();
+            else if (this._localStorageWanted) {
+                return this._getLocalStorage();}
+        }
 
-    getBookNumber(bookIndex){
-        return this._library[bookIndex];
-    }
-
-    toggleRead(bookIndex){
-        this._library[bookIndex].toggleRead();
-    }
-
-    toJSON() {
-        return{
-            library: this.library
+        _storageAvailable(type) {
+            let storage;
+            try {
+                storage = window[type];
+                var x = '__storage_test__';
+                storage.setItem(x, x);
+                storage.removeItem(x);
+                return true;
+            }
+            catch(e) {
+                return e instanceof DOMException && (
+                    // everything except Firefox
+                    e.code === 22 ||
+                    // Firefox
+                    e.code === 1014 ||
+                    // test name field too, because code might not be present
+                    // everything except Firefox
+                    e.name === 'QuotaExceededError' ||
+                    // Firefox
+                    e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+                    // acknowledge QuotaExceededError only if there's something already stored
+                    (storage && storage.length !== 0);
+            }
         }
     }
-}
+
+    const storage = new LibraryStorage();
+
+    return {storage}
+})();
+
+const Library = (() => {
+    class Book{
+        // not using # for now - new and experimental
+        constructor(title, author, pages, read){
+            this._title = title;
+            this._author = author;
+            this._pages = pages;
+            this._read = read;        
+        }
+
+        get title(){
+            return this._title;
+        }
+
+        set title(newTitle){
+            if (typeof newTitle !== "string") throw new Error("Title must be a string");
+            if (newTitle === "") throw new Error("Title must not be empty");
+            this._title = newTitle;
+            
+        }
+
+        get author(){
+            return this._author;
+        }
+
+        set author(newAuthor){
+            if (typeof newAuthor !== "string") throw new Error("Author must be a string");
+            if (newAuthor === "") throw new Error("Author must not be empty");
+            this._author = newAuthor;
+        }
+
+        get pages(){
+            return this._pages;
+        }
+
+        set pages(newPages){
+            if (typeof newPages !== "number") throw new Error("Pages must be an integer");
+            this._pages = newPages;
+        }
+
+        get read(){
+            return this._read;
+        }
+
+        set read(hasRead){
+            if (typeof hasRead !== "boolean") throw new Error("Read must be a boolean");
+            this._read = hasRead;
+        }
+
+        toggleRead() {
+            if (this.read === true) this.read = false;
+            else this.read = true;
+        }
+
+        getReadEntry() {
+            return this.read === true ? "Yes" : "No";
+        }
+
+        toJSON() {
+            return{
+                title: this.title,
+                author: this.author,
+                pages: this.pages,
+                read: this.read,
+            }
+        }
+    }
+
+    class Library{
+        // not using # for now - new and experimental
+        constructor(library){
+            if (Array.isArray(library["library"])){
+                if (library["library"] === []) this._library = library["library"];
+                else {
+                    this._library = library["library"].map(book => new Book(book.title, book.author, book.pages, book.read));
+                }
+            }
+            else this._library = [];
+
+        }
+
+        addBookToLibrary(title, author, pages, read){
+            this._library.push(new Book(title, author, pages, read));
+        }
+
+        removeBookFromLibrary(bookIndex){
+            let book = this.library.splice(bookIndex, 1);
+            return book;
+        }
+
+        get isEmpty(){
+            return this.library.length === 0 ? true : false;
+        }
+
+        get library(){
+            return this._library;
+        }
+
+        getBookNumber(bookIndex){
+            return this._library[bookIndex];
+        }
+
+        toggleRead(bookIndex){
+            this._library[bookIndex].toggleRead();
+        }
+
+        toJSON() {
+            return{
+                library: this.library
+            }
+        }
+    }
+
+    // Library
+    const myLibrary = new Library(LibraryStorage.storage.getStorage());
+
+    return {myLibrary}
+
+})();
+
 // DOM
 // function to look up table headers' class names
 // and return an array with matching entries for that book
@@ -191,8 +206,8 @@ function getBookDetails(book){
 // DOM
 function toggleRead(){
     bookIndex = this.parentNode.parentNode.parentNode.parentNode.dataset.bookIndex;
-    myLibrary.toggleRead(bookIndex);
-    libraryStorage.updateStorage();
+    Library.myLibrary.toggleRead(bookIndex);
+    LibraryStorage.storage.updateStorage();
     refreshTable();
 }
 
@@ -244,8 +259,8 @@ function refreshTable(){
 // Dom/Library
 function removeBook(){
     bookIndex = this.parentNode.parentNode.dataset.bookIndex;
-    myLibrary.removeBookFromLibrary(bookIndex);
-    libraryStorage.updateStorage();
+    Library.myLibrary.removeBookFromLibrary(bookIndex);
+    LibraryStorage.storage.updateStorage();
     refreshTable();
 }
 
@@ -292,7 +307,7 @@ function displayEmptyMessage(){
 
 // DOM
 function displayAllBooksInTable(){
-    if (myLibrary.isEmpty) {
+    if (Library.myLibrary.isEmpty) {
         document.querySelector("#book-list").style.display = "none";
         displayEmptyMessage();
     }
@@ -300,7 +315,7 @@ function displayAllBooksInTable(){
         const pTag = document.querySelector(".library-container").querySelector("p");
         if (pTag !== null) pTag.remove();
         document.querySelector("#book-list").style.display = "block";
-        myLibrary.library.forEach(displayBookInTable);
+        Library.myLibrary.library.forEach(displayBookInTable);
     }
 }
 
@@ -324,8 +339,8 @@ function addBookFromForm(e){
 
     document.querySelector("#new-book-form").reset();
 
-    myLibrary.addBookToLibrary(title, author, pages, read);
-    libraryStorage.updateStorage();
+    Library.myLibrary.addBookToLibrary(title, author, pages, read);
+    LibraryStorage.storage.updateStorage();
     refreshTable();
 
     if (e.submitter.id === "submit-new-book") hideBookForm();
@@ -342,11 +357,6 @@ function closeFormOnOverlay(e){
     hideBookForm();
 }
 
-const libraryStorage = new LibraryStorage();
-
-// Library
-//let myLibrary = getLocalLibraryStorage();
-const myLibrary = new Library(libraryStorage.getStorage());
 // DOM
 displayAllBooksInTable();
 
