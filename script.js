@@ -319,45 +319,54 @@ function displayAllBooksInTable(){
     }
 }
 
-// DOM
-function hideBookForm(){
-    document.querySelector("#overlay").style.display = "none";
+class FormController{
+    constructor(){
+        this._newBookFormElement = document.querySelector("#new-book-form");
+        this._closeNewBookFormElement = document.querySelector("#close-new-book-form");
+        this._newBookBtn = document.querySelector("#new-book-btn");
+        this._overlayDiv = document.querySelector("#overlay");
+        this._titleElement = document.querySelector("#title");
+        this._authorElement = document.querySelector("#author");
+        this._pagesElement = document.querySelector("#pages");
+        this._readElement = document.querySelector("#read-yes");
+
+        this._newBookFormElement.addEventListener("submit",this._addBookFromForm);
+        this._closeNewBookFormElement.addEventListener('click', this._hideBookForm);
+        this._newBookBtn.addEventListener('click', this._showBookForm);
+        this._overlayDiv.addEventListener('click', this._closeFormOnOverlay);
+    }
+
+    _hideBookForm = () => {
+        this._overlayDiv.style.display = "none";
+    }
+
+    _showBookForm = () => {
+        this._overlayDiv.style.display = "flex";
+    }
+
+    _addBookFromForm = (e) => {
+        // get form values
+        e.preventDefault(); 
+        const title = this._titleElement.value;
+        const author = this._authorElement.value;
+        const pages = parseInt(this._pagesElement.value);
+        const read = this._readElement.checked ? true : false;
+    
+        this._newBookFormElement.reset();
+    
+        Library.myLibrary.addBookToLibrary(title, author, pages, read);
+        LibraryStorage.storage.updateStorage();
+        refreshTable();
+    
+        if (e.submitter.id === "submit-new-book") this._hideBookForm();
+    }
+
+    _closeFormOnOverlay = (e) => {
+        if (e.target.id !== "overlay") return;
+        hideBookForm();
+    }
 }
 
-//DOM
-function showBookForm(){
-    document.querySelector("#overlay").style.display = "flex";
-}
-
-// DOM / Library
-function addBookFromForm(e){
-    // get form values
-    e.preventDefault(); 
-    const title = document.querySelector("#title").value;
-    const author = document.querySelector("#author").value;
-    const pages = parseInt(document.querySelector("#pages").value);
-    const read = document.querySelector("#read-yes").checked ? true : false;
-
-    document.querySelector("#new-book-form").reset();
-
-    Library.myLibrary.addBookToLibrary(title, author, pages, read);
-    LibraryStorage.storage.updateStorage();
-    refreshTable();
-
-    if (e.submitter.id === "submit-new-book") hideBookForm();
-}
-
-// DOM
-function closeFormOnOverlay(e){
-    if (e.target.id !== "overlay") return;
-    hideBookForm();
-}
-
-// DOM
 displayAllBooksInTable();
 
-// DOM
-document.querySelector("#new-book-form").addEventListener("submit",addBookFromForm)
-document.querySelector("#close-new-book-form").addEventListener('click', hideBookForm);
-document.querySelector("#new-book-btn").addEventListener('click', showBookForm);
-document.querySelector("#overlay").addEventListener('click',closeFormOnOverlay);
+const formController = new FormController();
