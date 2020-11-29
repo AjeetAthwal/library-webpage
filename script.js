@@ -4,7 +4,7 @@ const LibraryStorage = (() => {
             this._serverStorageWanted =  false;
             this._localStorageWanted = true;
         }
-        
+
         _storageAvailable(type) {
             let storage;
             try {
@@ -332,6 +332,7 @@ function showBookForm(){
 // DOM / Library
 function addBookFromForm(e){
     // get form values
+    e.preventDefault(); 
     const title = document.querySelector("#title").value;
     const author = document.querySelector("#author").value;
     const pages = parseInt(document.querySelector("#pages").value);
@@ -347,11 +348,6 @@ function addBookFromForm(e){
 }
 
 // DOM
-function handleForm(event) { 
-    event.preventDefault(); 
-}
-
-// DOM
 function closeFormOnOverlay(e){
     if (e.target.id !== "overlay") return;
     hideBookForm();
@@ -362,7 +358,6 @@ displayAllBooksInTable();
 
 // DOM
 document.querySelector("#new-book-form").addEventListener("submit",addBookFromForm)
-document.querySelector("#new-book-form").addEventListener('submit', handleForm);
 document.querySelector("#close-new-book-form").addEventListener('click', hideBookForm);
 document.querySelector("#new-book-btn").addEventListener('click', showBookForm);
 document.querySelector("#overlay").addEventListener('click',closeFormOnOverlay);
