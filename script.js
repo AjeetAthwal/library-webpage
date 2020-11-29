@@ -86,6 +86,11 @@ class Book{
         this._read = hasRead;
     }
 
+    toggleRead() {
+        if (this.read === true) this.read = false;
+        else this.read = true;
+    }
+
     toJSON() {
         return{
             title: this.title,
@@ -113,8 +118,7 @@ function getBookDetails(book){
 
 function toggleRead(){
     bookIndex = this.parentNode.parentNode.parentNode.parentNode.dataset.bookIndex;
-    if (myLibrary[bookIndex].read === true) myLibrary[bookIndex].read = false;
-    else myLibrary[bookIndex].read = true;
+    myLibrary[bookIndex].toggleRead();
     updateLocalLibraryStorage();
     refreshTable();
 }
