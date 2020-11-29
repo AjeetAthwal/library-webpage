@@ -241,12 +241,6 @@ class TableController{
         }
     }
 
-    render(){
-        LibraryStorage.storage.updateStorage();
-        this._removeAllBooksFromTable();
-        this._displayTable();
-    }
-
     _removeAllBooksFromTable(){
         while(this._bookListElement.childNodes.length > 2) {
             this._bookListElement.removeChild(this._bookListElement.lastChild);
@@ -316,18 +310,6 @@ class TableController{
         rowElt.appendChild(newEntry);
     }
 
-    _toggleRead = (e) => {
-        const bookIndex = e.target.parentNode.parentNode.parentNode.parentNode.dataset.bookIndex;
-        Library.myLibrary.toggleRead(bookIndex);
-        this.render();
-    }
-
-    _removeBook = (e) => {
-        const bookIndex = e.target.parentNode.parentNode.dataset.bookIndex;
-        Library.myLibrary.removeBookFromLibrary(bookIndex);
-        this.render();
-    }
-
     _addRemoveBtn(rowElt){
         const removeBtn = document.createElement("button");
         removeBtn.classList = "no-btn";
@@ -339,6 +321,24 @@ class TableController{
         removeBtnTd.appendChild(removeBtn);
     
         rowElt.appendChild(removeBtnTd);
+    }
+
+    _toggleRead = (e) => {
+        const bookIndex = e.target.parentNode.parentNode.parentNode.parentNode.dataset.bookIndex;
+        Library.myLibrary.toggleRead(bookIndex);
+        this.render();
+    }
+
+    _removeBook = (e) => {
+        const bookIndex = e.target.parentNode.parentNode.dataset.bookIndex;
+        Library.myLibrary.removeBookFromLibrary(bookIndex);
+        this.render();
+    }
+    
+    render(){
+        LibraryStorage.storage.updateStorage();
+        this._removeAllBooksFromTable();
+        this._displayTable();
     }
 }
 
@@ -394,6 +394,5 @@ class FormController{
         hideBookForm();
     }
 }
-
 
 const formController = new FormController();
