@@ -1,3 +1,4 @@
+// Storage
 function storageAvailable(type) {
     let storage;
     try {
@@ -23,17 +24,20 @@ function storageAvailable(type) {
     }
 }
 
+// Storage
 function updateLocalLibraryStorage(){
     if (storageAvailable("localStorage")){
         localStorage.setItem("myLibrary",JSON.stringify(myLibrary));
     }
 }
 
+// Storage
 function getLocalLibraryStorage(){
     if (storageAvailable("localStorage")){
         const newLibrary = JSON.parse(localStorage.getItem("myLibrary"));
         if (newLibrary === null) return [];
-        return newLibrary.map(book => new Book(book.title, book.author, book.pages, book.read));
+        console.log(newLibrary)
+        return newLibrary;
     }
     return [];
 }
@@ -91,6 +95,10 @@ class Book{
         else this.read = true;
     }
 
+    getReadEntry() {
+        return this.read === true ? "Yes" : "No";
+    }
+
     toJSON() {
         return{
             title: this.title,
@@ -100,12 +108,12 @@ class Book{
         }
     }
 }
-
+// Library or DOM
 function addBookToLibrary(title, author, pages, read){
     myLibrary.push(new Book(title, author, pages, read));
-    updateLocalLibraryStorage();
 }
 
+// DOM
 // function to look up table headers' class names
 // and return an array with matching entries for that book
 function getBookDetails(book){
@@ -116,6 +124,7 @@ function getBookDetails(book){
     return {bookHeaders, bookEntries}
 }
 
+// DOM
 function toggleRead(){
     bookIndex = this.parentNode.parentNode.parentNode.parentNode.dataset.bookIndex;
     myLibrary[bookIndex].toggleRead();
@@ -123,6 +132,7 @@ function toggleRead(){
     refreshTable();
 }
 
+// DOM
 function addTdBookElt(rowElt, header, entry){
     const newEntry = document.createElement("td");
     const tdDiv = document.createElement("div");
@@ -161,18 +171,21 @@ function addTdBookElt(rowElt, header, entry){
     rowElt.appendChild(newEntry);
 }
 
+// DOM
 function refreshTable(){
     document.querySelector("#book-list").querySelectorAll("tr").forEach(rowElt => rowElt.id !== "row-headers" && rowElt.remove());
     displayAllBooksInTable();
 }
 
+// Dom/Library
 function removeBook(){
     bookIndex = this.parentNode.parentNode.dataset.bookIndex;
-    myLibrary.splice(bookIndex, 1);
+    myLibrary.removeBookFromLibrary(bookIndex);
     updateLocalLibraryStorage();
     refreshTable();
 }
 
+// DOM
 function addRemoveBtn(rowElt){
     removeBtn = document.createElement("button");
     removeBtn.classList = "no-btn";
@@ -186,6 +199,7 @@ function addRemoveBtn(rowElt){
     rowElt.appendChild(removeBtnTd);
 }
 
+// DOM
 function makeTrBookElt(bookDetails, bookIndex){
     const newRowElt = document.createElement("tr");
     newRowElt.dataset.bookIndex = bookIndex;
@@ -199,19 +213,22 @@ function makeTrBookElt(bookDetails, bookIndex){
     document.querySelector("#book-list").appendChild(newRowElt);
 }
 
+// DOM
 function displayBookInTable(book, bookIndex){
     const bookDetails = getBookDetails(book);
     makeTrBookElt(bookDetails, bookIndex);
 }
 
+// DOM
 function displayEmptyMessage(){
     const newEntry = document.createElement("p");
     newEntry.innerText = `There are no books in the library! Please add some books by clicking the button in the top left`;
     document.querySelector(".library-container").appendChild(newEntry);
 }
 
+// DOM
 function displayAllBooksInTable(){
-    if (myLibrary.length === 0) {
+    if (myLibrary.isEmpty) {
         document.querySelector("#book-list").style.display = "none";
         displayEmptyMessage();
     }
@@ -219,18 +236,21 @@ function displayAllBooksInTable(){
         const pTag = document.querySelector(".library-container").querySelector("p");
         if (pTag !== null) pTag.remove();
         document.querySelector("#book-list").style.display = "block";
-        myLibrary.forEach(displayBookInTable);
+        myLibrary.library.forEach(displayBookInTable);
     }
 }
 
+// DOM
 function hideBookForm(){
     document.querySelector("#overlay").style.display = "none";
 }
 
+//DOM
 function showBookForm(){
     document.querySelector("#overlay").style.display = "flex";
 }
 
+// DOM / Library
 function addBookFromForm(e){
     // get form values
     const title = document.querySelector("#title").value;
@@ -240,24 +260,68 @@ function addBookFromForm(e){
 
     document.querySelector("#new-book-form").reset();
 
-    addBookToLibrary(title, author, pages, read);
+    myLibrary.addBookToLibrary(title, author, pages, read);
+    updateLocalLibraryStorage();
     refreshTable();
 
     if (e.submitter.id === "submit-new-book") hideBookForm();
 }
 
+// DOM
 function handleForm(event) { 
     event.preventDefault(); 
 }
 
+// DOM
 function closeFormOnOverlay(e){
     if (e.target.id !== "overlay") return;
     hideBookForm();
 }
 
-let myLibrary = getLocalLibraryStorage();
+class Library{
+    // not using # for now - new and experimental
+    constructor(library){
+        if (Array.isArray(library["library"])){
+            if (library["library"] === []) this._library = library["library"];
+            else {
+                this._library = library["library"].map(book => new Book(book.title, book.author, book.pages, book.read));
+            }
+        }
+        else this._library = [];
+
+    }
+
+    addBookToLibrary(title, author, pages, read){
+        this._library.push(new Book(title, author, pages, read));
+    }
+
+    removeBookFromLibrary(bookIndex){
+        let book = this.library.splice(bookIndex, 1);
+        return book;
+    }
+
+    get isEmpty(){
+        return this.library.length === 0 ? true : false;
+    }
+
+    get library(){
+        return this._library;
+    }
+
+    toJSON() {
+        return{
+            library: this.library
+        }
+    }
+}
+
+// Library
+//let myLibrary = getLocalLibraryStorage();
+const myLibrary = new Library(getLocalLibraryStorage());
+// DOM
 displayAllBooksInTable();
 
+// DOM
 document.querySelector("#new-book-form").addEventListener("submit",addBookFromForm)
 document.querySelector("#new-book-form").addEventListener('submit', handleForm);
 document.querySelector("#close-new-book-form").addEventListener('click', hideBookForm);
