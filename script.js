@@ -4,43 +4,7 @@ const LibraryStorage = (() => {
             this._serverStorageWanted =  false;
             this._localStorageWanted = true;
         }
-
-        _updateLocalStorage(){
-            if (this._storageAvailable("localStorage")){
-                localStorage.setItem("myLibrary",JSON.stringify(Library.myLibrary));
-            }
-        }
-
-        _updateServerStorage(){
-            //
-            return;
-        }
-
-        updateStorage(){
-            if (this._serverStorageWanted) this._updateServerStorage();
-            else if (this._localStorageWanted) this._updateLocalStorage();
-        }
-
-        _getLocalStorage(){
-            if (this._storageAvailable("localStorage")){
-                const newLibrary = JSON.parse(localStorage.getItem("myLibrary"));
-                if (newLibrary === null) return [];
-                return newLibrary;
-            }
-            return [];
-        }
-
-        _getServerStorage(){
-            //
-            return;
-        }
-
-        getStorage(){
-            if (this._serverStorageWanted) return this._getServerStorage();
-            else if (this._localStorageWanted) {
-                return this._getLocalStorage();}
-        }
-
+        
         _storageAvailable(type) {
             let storage;
             try {
@@ -64,6 +28,42 @@ const LibraryStorage = (() => {
                     // acknowledge QuotaExceededError only if there's something already stored
                     (storage && storage.length !== 0);
             }
+        }        
+
+        _updateLocalStorage(){
+            if (this._storageAvailable("localStorage")){
+                localStorage.setItem("myLibrary",JSON.stringify(Library.myLibrary));
+            }
+        }
+
+        _updateServerStorage(){
+            //
+            return;
+        }
+
+        _getLocalStorage(){
+            if (this._storageAvailable("localStorage")){
+                const newLibrary = JSON.parse(localStorage.getItem("myLibrary"));
+                if (newLibrary === null) return [];
+                return newLibrary;
+            }
+            return [];
+        }
+
+        _getServerStorage(){
+            //
+            return;
+        }
+
+        updateStorage(){
+            if (this._serverStorageWanted) this._updateServerStorage();
+            else if (this._localStorageWanted) this._updateLocalStorage();
+        }
+
+        getStorage(){
+            if (this._serverStorageWanted) return this._getServerStorage();
+            else if (this._localStorageWanted) {
+                return this._getLocalStorage();}
         }
     }
 
