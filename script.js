@@ -156,10 +156,10 @@ const Library = (() => {
     class Library{
         // not using # for now - new and experimental
         constructor(library){
-            if (Array.isArray(library["library"])){
-                if (library["library"] === []) this._library = library["library"];
+            if (Array.isArray(library["list"])){
+                if (library["list"] === []) this._library = library["list"];
                 else {
-                    this._library = library["library"].map(book => new Book(book.title, book.author, book.pages, book.read));
+                    this._library = library["list"].map(book => new Book(book.title, book.author, book.pages, book.read));
                 }
             }
             else this._library = [];
@@ -171,15 +171,15 @@ const Library = (() => {
         }
 
         removeBookFromLibrary(bookIndex){
-            let book = this.library.splice(bookIndex, 1);
+            let book = this.list.splice(bookIndex, 1);
             return book;
         }
 
         get isEmpty(){
-            return this.library.length === 0 ? true : false;
+            return this.list.length === 0 ? true : false;
         }
 
-        get library(){
+        get list(){
             return this._library;
         }
 
@@ -205,12 +205,11 @@ const Library = (() => {
 
         toJSON() {
             return{
-                library: this.library
+                list: this.list
             }
         }
     }
 
-    // Library
     const myLibrary = new Library(LibraryStorage.storage.getStorage());
 
     return {myLibrary}
@@ -273,7 +272,7 @@ class TableController{
     }
     
     _displayAllBooksInTable(){
-        Library.myLibrary.library.forEach(this._addBookTrToTable)
+        Library.myLibrary.list.forEach(this._addBookTrToTable)
     }
 
     _addBookTrToTable = (book, bookIndex) => {
