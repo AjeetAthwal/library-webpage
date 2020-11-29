@@ -135,6 +135,14 @@ const Library = (() => {
             if (header === "title") return this.title;
         }
 
+        getKeys(){
+            return ["title", "author", "pages", "read"]
+        }
+        
+        getValues(){
+            return this.getKeys().map(key => this[key]);
+        }
+
         toJSON() {
             return{
                 title: this.title,
@@ -187,6 +195,14 @@ const Library = (() => {
             this._library[bookIndex].getTableEntry(header);
         }
 
+        getKeys(){
+            return this._library[0].getKeys();
+        }
+
+        getValues(bookIndex){
+            return this._library[bookIndex].getValues();
+        }
+
         toJSON() {
             return{
                 library: this.library
@@ -201,142 +217,14 @@ const Library = (() => {
 
 })();
 
-// DOM
-// function to look up table headers' class names
-// and return an array with matching entries for that book
-function getBookDetails(book){
-    // stores each th element's classname to bookHeaders array
-    const bookHeaders = Array.from(document.querySelectorAll("th")).map(header => header.className);
-    const bookEntries = bookHeaders.map(header => book[header]);
-
-    return {bookHeaders, bookEntries}
-}
-
-// DOM
-function toggleRead(){
-    bookIndex = this.parentNode.parentNode.parentNode.parentNode.dataset.bookIndex;
-    Library.myLibrary.toggleRead(bookIndex);
-    LibraryStorage.storage.updateStorage();
-    refreshTable();
-}
-
-// DOM
-function addTdBookElt(rowElt, header, entry){
-    const newEntry = document.createElement("td");
-    const tdDiv = document.createElement("div");
-    
-    // read special case
-    // convert bool to Yes/No
-    // add in div containers - one for text, one for image
-    if (header === "read"){
-        if (entry === true) entry = "Yes";
-        else entry = "No";
-    }
-
-    // put td's in div container first
-    const newDiv = document.createElement("div");
-    newDiv.innerText = entry;
-    tdDiv.classList = "table-entry";
-    tdDiv.appendChild(newDiv);
-    
-
-    // add edit icon to read
-    if (header === "read"){
-        const editDiv = document.createElement("div");
-        const editIcon = document.createElement("img");
-        editIcon.src = "images/edit_icon.png";
-        editIcon.alt = "Edit";
-        editIcon.classList = "edit-icon";
-        editIcon.addEventListener("click", toggleRead)
-        editDiv.appendChild(editIcon);
-        tdDiv.appendChild(editDiv);
-    }
-
-
-    newEntry.classList.add(header);
-    newEntry.appendChild(tdDiv);
-    // append td to tr
-    rowElt.appendChild(newEntry);
-}
-
-// DOM
-function refreshTable(){
-    const bookListElement = document.querySelector("#book-list");
-    while(bookListElement.childNodes.length > 2) {
-        bookListElement.removeChild(bookListElement.lastChild);
-    }
-    displayAllBooksInTable();
-}
-
-// Dom/Library
-function removeBook(){
-    bookIndex = this.parentNode.parentNode.dataset.bookIndex;
-    Library.myLibrary.removeBookFromLibrary(bookIndex);
-    LibraryStorage.storage.updateStorage();
-    refreshTable();
-}
-
-// DOM
-function addRemoveBtn(rowElt){
-    removeBtn = document.createElement("button");
-    removeBtn.classList = "no-btn";
-    removeBtn.innerText = "Remove Book";
-    removeBtn.addEventListener("click", removeBook);
-
-    removeBtnTd = document.createElement("td");
-    removeBtnTd.classList = "off-table";
-    removeBtnTd.appendChild(removeBtn);
-
-    rowElt.appendChild(removeBtnTd);
-}
-
-// DOM
-function makeTrBookElt(bookDetails, bookIndex){
-    const newRowElt = document.createElement("tr");
-    newRowElt.dataset.bookIndex = bookIndex;
-
-    for (let bookIndex = 0; bookIndex < bookDetails.bookHeaders.length; bookIndex++){
-        addTdBookElt(newRowElt, bookDetails.bookHeaders[bookIndex], bookDetails.bookEntries[bookIndex])
-    }
-
-    addRemoveBtn(newRowElt);
-
-    document.querySelector("#book-list").appendChild(newRowElt);
-}
-
-// DOM
-function displayBookInTable(book, bookIndex){
-    const bookDetails = getBookDetails(book);
-    makeTrBookElt(bookDetails, bookIndex);
-}
-
-// DOM
-function displayEmptyMessage(){
-    const newEntry = document.createElement("p");
-    newEntry.innerText = `There are no books in the library! Please add some books by clicking the button in the top left`;
-    document.querySelector(".library-container").appendChild(newEntry);
-}
-
-// DOM
-function displayAllBooksInTable(){
-    if (Library.myLibrary.isEmpty) {
-        document.querySelector("#book-list").style.display = "none";
-        displayEmptyMessage();
-    }
-    else{
-        const pTag = document.querySelector(".library-container").querySelector("p");
-        if (pTag !== null) pTag.remove();
-        document.querySelector("#book-list").style.display = "block";
-        Library.myLibrary.library.forEach(displayBookInTable);
-    }
-}
-
 class TableController{
     constructor() {
         this._tableDiv = document.querySelector(".library-container");
         this._bookListElement = document.querySelector("#book-list");
         this._pTag = ""
         this._emptyTableMessage = `There are no books in the library! Please add some books by clicking the button in the top left`;
+
+        this.render();
     }
 
     _hideTable(){
@@ -354,11 +242,10 @@ class TableController{
         }
     }
 
-
-
     render(){
+        LibraryStorage.storage.updateStorage();
         this._removeAllBooksFromTable();
-        this._displayAllBooksInTable();
+        this._displayTable();
     }
 
     _removeAllBooksFromTable(){
@@ -367,7 +254,7 @@ class TableController{
         }
     }
 
-    _displayAllBooksInTable(){
+    _displayTable(){
         if (Library.myLibrary.isEmpty) {
             this._hideTable();
             this._displayEmptyMessage();
@@ -375,24 +262,88 @@ class TableController{
         else{
             this._removePTag();
             this._showTable();
-            Library.myLibrary.library.forEach(displayBookInTable);
+            this._displayAllBooksInTable();
         }
     }
 
-    _displayBookInTable(book, bookIndex){
-        const bookDetails = getBookDetails(book);
-        makeTrBookElt(bookDetails, bookIndex);
-    }
-    
-    // DOM
     _displayEmptyMessage(){
         this._pTag = document.createElement("p");
         this._pTag.innerText = this._emptyTableMessage;
         this._tableDiv.appendChild(this._pTag);
     }
     
+    _displayAllBooksInTable(){
+        Library.myLibrary.library.forEach(this._addBookTrToTable)
+    }
 
+    _addBookTrToTable = (book, bookIndex) => {
+        const newRowElt = document.createElement("tr");
+        newRowElt.dataset.bookIndex = bookIndex;
+    
+        for (let bookIndex = 0; bookIndex < book.getKeys().length; bookIndex++){
+            this._addTdBookElt(newRowElt, book.getKeys()[bookIndex], book)
+        }
+    
+        this._addRemoveBtn(newRowElt);
+    
+        this._bookListElement.appendChild(newRowElt);
+    }
+
+    _addTdBookElt(rowElt, header, book){
+        const newEntry = document.createElement("td");
+        const tdDiv = document.createElement("div");
+        
+        // put td's in div container first
+        const newDiv = document.createElement("div");
+        newDiv.innerText = book.getTableEntry(header);
+        tdDiv.classList = "table-entry";
+        tdDiv.appendChild(newDiv);
+    
+        // add edit icon to read
+        if (header === "read"){
+            const editDiv = document.createElement("div");
+            const editIcon = document.createElement("img");
+            editIcon.src = "images/edit_icon.png";
+            editIcon.alt = "Edit";
+            editIcon.classList = "edit-icon";
+            editIcon.addEventListener("click", this._toggleRead)
+            editDiv.appendChild(editIcon);
+            tdDiv.appendChild(editDiv);
+        }
+    
+        newEntry.classList.add(header);
+        newEntry.appendChild(tdDiv);
+
+        rowElt.appendChild(newEntry);
+    }
+
+    _toggleRead = (e) => {
+        const bookIndex = e.target.parentNode.parentNode.parentNode.parentNode.dataset.bookIndex;
+        Library.myLibrary.toggleRead(bookIndex);
+        this.render();
+    }
+
+    _removeBook = (e) => {
+        const bookIndex = e.target.parentNode.parentNode.dataset.bookIndex;
+        Library.myLibrary.removeBookFromLibrary(bookIndex);
+        this.render();
+    }
+
+    _addRemoveBtn(rowElt){
+        const removeBtn = document.createElement("button");
+        removeBtn.classList = "no-btn";
+        removeBtn.innerText = "Remove Book";
+        removeBtn.addEventListener("click", this._removeBook);
+    
+        const removeBtnTd = document.createElement("td");
+        removeBtnTd.classList = "off-table";
+        removeBtnTd.appendChild(removeBtn);
+    
+        rowElt.appendChild(removeBtnTd);
+    }
 }
+
+tableController = new TableController();
 
 class FormController{
     constructor(){
@@ -429,11 +380,14 @@ class FormController{
     
         this._newBookFormElement.reset();
     
-        Library.myLibrary.addBookToLibrary(title, author, pages, read);
-        LibraryStorage.storage.updateStorage();
-        refreshTable();
+        this._addBook(title, author, pages, read);
     
         if (e.submitter.id === "submit-new-book") this._hideBookForm();
+    }
+
+    _addBook(title, author, pages, read){
+        Library.myLibrary.addBookToLibrary(title, author, pages, read);
+        tableController.render();
     }
 
     _closeFormOnOverlay = (e) => {
@@ -442,6 +396,5 @@ class FormController{
     }
 }
 
-displayAllBooksInTable();
 
 const formController = new FormController();
