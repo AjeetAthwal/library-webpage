@@ -33,7 +33,7 @@ function getLocalLibraryStorage(){
     if (storageAvailable("localStorage")){
         const newLibrary = JSON.parse(localStorage.getItem("myLibrary"));
         if (newLibrary === null) return [];
-        return JSON.parse(localStorage.getItem("myLibrary"));
+        return newLibrary;
     }
     return [];
 }
@@ -44,6 +44,42 @@ class Book{
         this.author = author;
         this.pages = pages;
         this.read = read;        
+    }
+
+    get title(){
+        return this._title;
+    }
+
+    set title(newTitle){
+        if (typeof newTitle === "string")   this._title = newTitle;
+        else throw new Error("Title must be a string")
+    }
+
+    get author(){
+        return this._author;
+    }
+
+    set author(newAuthor){
+        if (typeof newAuthor === "string")   this._author = newAuthor;
+        else throw new Error("Author must be a string")
+    }
+
+    get pages(){
+        return this._pages;
+    }
+
+    set pages(newPages){
+        if (typeof newPages === "number")   this._pages = newPages;
+        else throw new Error("Pages must be an integer");
+    }
+
+    get read(){
+        return this._read;
+    }
+
+    set read(hasRead){
+        if (typeof hasRead === "boolean")   this._read = hasRead;
+        else throw new Error("Read must be a boolean");
     }
 }
 
@@ -182,7 +218,7 @@ function addBookFromForm(e){
     // get form values
     const title = document.querySelector("#title").value;
     const author = document.querySelector("#author").value;
-    const pages = document.querySelector("#pages").value;
+    const pages = parseInt(document.querySelector("#pages").value);
     const read = document.querySelector("#read-yes").checked ? true : false;
 
     document.querySelector("#new-book-form").reset();
