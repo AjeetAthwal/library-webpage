@@ -261,7 +261,10 @@ function addTdBookElt(rowElt, header, entry){
 
 // DOM
 function refreshTable(){
-    document.querySelector("#book-list").querySelectorAll("tr").forEach(rowElt => rowElt.id !== "row-headers" && rowElt.remove());
+    const bookListElement = document.querySelector("#book-list");
+    while(bookListElement.childNodes.length > 2) {
+        bookListElement.removeChild(bookListElement.lastChild);
+    }
     displayAllBooksInTable();
 }
 
@@ -359,7 +362,9 @@ class TableController{
     }
 
     _removeAllBooksFromTable(){
-        this._bookListElement.querySelectorAll("tr").forEach(rowElt => rowElt.id !== "row-headers" && rowElt.remove());
+        while(this._bookListElement.childNodes.length > 2) {
+            this._bookListElement.removeChild(this._bookListElement.lastChild);
+        }
     }
 
     _displayAllBooksInTable(){
