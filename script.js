@@ -328,6 +328,67 @@ function displayAllBooksInTable(){
     }
 }
 
+class TableController{
+    constructor() {
+        this._tableDiv = document.querySelector(".library-container");
+        this._bookListElement = document.querySelector("#book-list");
+        this._pTag = ""
+        this._emptyTableMessage = `There are no books in the library! Please add some books by clicking the button in the top left`;
+    }
+
+    _hideTable(){
+        this._bookListElement.style.display = "none";
+    }
+
+    _showTable(){
+        this._bookListElement.style.display = "block";
+    }
+
+    _removePTag(){
+        if (this._pTag !== "") {
+            this._pTag.remove();
+            this._pTag = "";
+        }
+    }
+
+
+
+    render(){
+        this._removeAllBooksFromTable();
+        this._displayAllBooksInTable();
+    }
+
+    _removeAllBooksFromTable(){
+        this._bookListElement.querySelectorAll("tr").forEach(rowElt => rowElt.id !== "row-headers" && rowElt.remove());
+    }
+
+    _displayAllBooksInTable(){
+        if (Library.myLibrary.isEmpty) {
+            this._hideTable();
+            this._displayEmptyMessage();
+        }
+        else{
+            this._removePTag();
+            this._showTable();
+            Library.myLibrary.library.forEach(displayBookInTable);
+        }
+    }
+
+    _displayBookInTable(book, bookIndex){
+        const bookDetails = getBookDetails(book);
+        makeTrBookElt(bookDetails, bookIndex);
+    }
+    
+    // DOM
+    _displayEmptyMessage(){
+        this._pTag = document.createElement("p");
+        this._pTag.innerText = this._emptyTableMessage;
+        this._tableDiv.appendChild(this._pTag);
+    }
+    
+
+}
+
 class FormController{
     constructor(){
         this._newBookFormElement = document.querySelector("#new-book-form");
