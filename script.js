@@ -167,6 +167,10 @@ class Library{
         return this._library[bookIndex];
     }
 
+    toggleRead(bookIndex){
+        this._library[bookIndex].toggleRead();
+    }
+
     toJSON() {
         return{
             library: this.library
@@ -187,7 +191,7 @@ function getBookDetails(book){
 // DOM
 function toggleRead(){
     bookIndex = this.parentNode.parentNode.parentNode.parentNode.dataset.bookIndex;
-    myLibrary.getBookNumber(bookIndex).toggleRead();
+    myLibrary.toggleRead(bookIndex);
     libraryStorage.updateStorage();
     refreshTable();
 }
