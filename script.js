@@ -65,6 +65,7 @@ class LibraryStorage{
         }
     }
 }
+
 class Book{
     // not using # for now - new and experimental
     constructor(title, author, pages, read){
@@ -132,6 +133,46 @@ class Book{
     }
 }
 
+class Library{
+    // not using # for now - new and experimental
+    constructor(library){
+        if (Array.isArray(library["library"])){
+            if (library["library"] === []) this._library = library["library"];
+            else {
+                this._library = library["library"].map(book => new Book(book.title, book.author, book.pages, book.read));
+            }
+        }
+        else this._library = [];
+
+    }
+
+    addBookToLibrary(title, author, pages, read){
+        this._library.push(new Book(title, author, pages, read));
+    }
+
+    removeBookFromLibrary(bookIndex){
+        let book = this.library.splice(bookIndex, 1);
+        return book;
+    }
+
+    get isEmpty(){
+        return this.library.length === 0 ? true : false;
+    }
+
+    get library(){
+        return this._library;
+    }
+
+    getBookNumber(bookIndex){
+        return this._library[bookIndex];
+    }
+
+    toJSON() {
+        return{
+            library: this.library
+        }
+    }
+}
 // DOM
 // function to look up table headers' class names
 // and return an array with matching entries for that book
@@ -296,48 +337,6 @@ function closeFormOnOverlay(e){
     if (e.target.id !== "overlay") return;
     hideBookForm();
 }
-
-class Library{
-    // not using # for now - new and experimental
-    constructor(library){
-        if (Array.isArray(library["library"])){
-            if (library["library"] === []) this._library = library["library"];
-            else {
-                this._library = library["library"].map(book => new Book(book.title, book.author, book.pages, book.read));
-            }
-        }
-        else this._library = [];
-
-    }
-
-    addBookToLibrary(title, author, pages, read){
-        this._library.push(new Book(title, author, pages, read));
-    }
-
-    removeBookFromLibrary(bookIndex){
-        let book = this.library.splice(bookIndex, 1);
-        return book;
-    }
-
-    get isEmpty(){
-        return this.library.length === 0 ? true : false;
-    }
-
-    get library(){
-        return this._library;
-    }
-
-    getBookNumber(bookIndex){
-        return this._library[bookIndex];
-    }
-
-    toJSON() {
-        return{
-            library: this.library
-        }
-    }
-}
-
 
 const libraryStorage = new LibraryStorage();
 
